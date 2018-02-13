@@ -1,12 +1,15 @@
 var deals = require('./../models/deals');
 
-// const google = window.google;
+
 var Geocodio = require('geocodio');
 require('dotenv').config();
 
 var config = {
     api_key: process.env.GEOCODIO_KEY
 }
+var googleMapsClient = require('@google/maps').createClient({
+    key: process.env.GOOGLE_KEY
+})
 var geocodio = new Geocodio(config)
 
 module.exports = {
@@ -19,25 +22,8 @@ module.exports = {
         .catch(() => res.status(500).send())
     },
     generateCoordinates (req, res, next) {
-        // var addresses = []
-        // addresses = deals.map((cur, ind, arr) => {
-        //     return {lineAddress:`${cur.restaurant.addressOne}, ${cur.restaurant.city}, ${cur.restaurant.state}, ${cur.restaurant.zip}`, }
-        // })
-        // for (var i = 0; i<deals.length-1; i++) {
-        //     var location = new Promise((resolve, reject) => {
-        //         geocodio.get('geocode', {q: `${deals[i].restaurant.addressOne}, ${deals[i].restaurant.city}, ${deals[i].restaurant.state}, ${deals[i].restaurant.zip}`}, function(err, response) {
-        //             if (err) {
-        //                 throw err;
-        //             } else {
-        //                 var result = JSON.parse(response)
-        //                 console.log(result.results[0].location);
-        //                 deals[i].location = result.results[0].location;
-        //             }
-        //         })
-        //     })
-        // }
-        var newDeals = deals.map((cur, ind, arr) => {
-                var location = new Promise (function(resolve, reject) { geocodio.get('geocode',  {q: `${cur.restaurant.addressOne}, ${cur.restaurant.city}, ${cur.restaurant.state}, ${cur.restaurant.zip}`}, function(err, response) {
+        deals = deals.map((cur, ind, arr) => {
+               return new Promise (function(resolve, reject) { geocodio.get('geocode',  {q: `${cur.restaurant.addressOne}, ${cur.restaurant.city}, ${cur.restaurant.state}, ${cur.restaurant.zip}`}, function(err, response) {
                         if (err) {
                             reject(err)
                             throw err;
@@ -45,22 +31,44 @@ module.exports = {
                         else {
                             var result = JSON.parse(response);
                             let obj = result.results[0].location;
-                            // console.log(obj);
                             resolve(obj)
                         }
                     }
-                )})
-               cur.location = location.then(obj => {
-                  return console.log(obj)
-               })
-               return cur;
+                )}).then((obj) => {
+                    cur.location = obj;
+                    return cur;
+                })
+                return cur;
         })
-        
-        return res.status(200).send(newDeals)
+        Promise.all(deals).then(results => res.status(200).send(results))
     },
-    batchGeocode: (req, res, next) => {
-        var addresses
-    }
     // function to calculate distance
+    calcDistance (req, res, next) {
+        //can just map into this and skip the geocoding. fuck.
+        res.status(200).send(deals)
+        // var myLocation = {lat: 32.813085, lng: -96.762331}
+        // var userRests = deals.map((cur, ind, arr) => {
+        //     return new Promise ((resolve, reject) => {
+        //         googleMapsClient.distanceMatrix({
+        //         origins: [myLocation],
+        //         destinations: [cur.location],
+        //         units: 'imperial'
+    
+        //     }, (response, status) => {
+        //         if (status == 'OK') {
+        //             var origins = response.originAddresses;
+        //             var destinations = response.destinationAddress;
+        //             let obj = response.rows[0].elements[0].distance.text
+        //         }
+        //     })
+        //     }
+        //     ).then((obj) => {
+        //         cur.distance = obj;
+        //         return cur;
+        //     })
+        //     return cur;
+        // })
+        // Promise.all(userRests).then(results => res.status(200).send(results))
+        
+    }
 }
-// response.results.map((cur, ind, arr) => cur.results[0].location

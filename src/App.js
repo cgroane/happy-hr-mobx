@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import {getDeals, getLocations} from './ducks/reducer';
 import logo from './logo.svg';
 import './App.css';
-import Page from './components/Page';
-import story from './story.json';
+import router from './router';
+
 
 class App extends Component {
   constructor(props) {
@@ -13,17 +15,12 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    axios.get('http://localhost:3001/api/deals').then((response) => this.setState({deals: response.data}))
+    this.props.getLocations()
   }
   render() {
-    const stories = story.map((cur, ind, arr) => {
-      return (
-        <div>
-          {cur.text}
-        </div>
-      )
-    })
-    const deals = this.state.deals.map((cur, ind, arr) => {
+    const deals = this.props.deals.map((cur, ind, arr) => {
+      // make deal card here
+      // use emotion
       return (
         <div key={ind} >
           {cur.title}
@@ -32,17 +29,10 @@ class App extends Component {
     })
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <div>{deals}</div>
-        <p className="App-intro">
-          {/* <Page /> */}
-        </p>
+        {router}
       </div>
     );
   }
 }
-
-export default App;
+const mapStateToProps = state => state;
+export default connect(mapStateToProps, {getLocations, getDeals})(App);
