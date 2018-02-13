@@ -1,0 +1,351 @@
+[
+    {
+        "id": "0",
+        "choices": [
+            {
+                "id": "1",
+                "text": "Seattle"
+            }
+        ],
+        "story": "Choose a destination"
+    },
+    {
+        "id": "1",
+        "text": "Seattle",
+        "story": "For this trip, you have to fly to San Francisco, and rent a car to drive to Seattle and back. You're joined by Tim, Wade, Trey and, later, Steven. You'll make plenty of stops on the way, but first, choose a car rental service.",
+        "choices": [
+            {
+                "id": "1a",
+                "text": "Enterprise"
+            } , {
+                "id": "1b",
+                "text": "Avis"
+            }
+        ]
+    },
+    {
+        "id": "1a",
+        "text": "Enterprise",
+        "story": "Crap, Enterprise lied to you. Trey reserved a car from Enterprise over the phone at a reasonable price and the best part was they didn't ask how old he was. But when we arrived in SF to pick it up, they told us we were too young to rent that car and refused to allow us to rent a car with enough seats for the group.",
+        "choices": [
+            {
+                "id":"1b",
+                "text": "Avis"
+            }
+        ]
+    },
+    {
+        "id":"1b",
+        "text": "Avis",
+        "story": "This would've been wise. Especially if you're a AAA member. They hooked you up with a great discount. On top of that, the rental agent seems to hate his job: 'I'll take an extra $300 off if you take it right now'. You've got your car - a Red 2012 Toyota 4Runner. Very nice.",
+        "choices": [
+            {
+                "id":"1ba",
+                "text":"Hotel, airbnb?"
+            }, {
+                "id":"1bb",
+                "text": "Friend's sister's friend's backyard"
+            }
+        ]
+    },
+    {
+        "id": "1ba",
+        "text":"Hotel, airbnb?",
+        "story": "Too bad. Traveling with a bunch of cheapskates. You drove through the night to Big Sur.",
+        "choices": [
+            {
+                "id": "1baa",
+                "text":"Reserve a campground"
+            } , {
+                "id": "1bab",
+                "text": "Just go for it"
+            }
+        ]
+    },
+    {
+        "id":"1bb",
+        "text": "Friend's sister's friend's backyard",
+        "story": "Interesting choice. Think of it like practice camping because they wouldn't let you stay inside the house. So 4 of you slept in one tent in the backyard. It was compact. Also, San Francisco is perpetually drizzling at night. Next stop: Big Sur.",
+        "choices": [
+            {
+                "id": "1baa",
+                "text":"Reserve a campground"
+            } , {
+                "id": "1bab",
+                "text": "Just go for it"
+            }
+        ]
+    },
+    {
+        "id":"1baa",
+        "text":"Reserve a campground",
+        "story":"Ah, nice try. They're all booked or first come first serve. Not a lot of good options available but, friendly stranger, Enoch, invites you all to share his campground.",
+        "choices": [
+            {
+                "id":"1baaa",
+                "text": "Sure"
+            }, {
+                "id": "1baab",
+                "text": "No thanks"
+            }
+        ]
+    },
+    {
+        "id":"1bab",
+        "text":"Just go for it",
+        "story":"good thing it didn't matter, most sites are first come first serve. you got your second choice state park, the better one was totally full. But all of the decent spots are taken. The rest literally have prairie dog burrows all around them. Friendly stranger, Enoch, invites you all to share his campground. Yes or no?",
+        "choices": [
+            {
+                "id":"1baaa",
+                "text": "Sure"
+            }, {
+                "id": "1baab",
+                "text": "No thanks"
+            }
+        ]
+    },
+    {
+        "id":"1baaa",
+        "text": "Sure",
+        "story": "Enoch has been traveling the country on a bicycle. He has close to no possessions and is obviously looking for company. Enoch, 24 years old, was ostracized from the Mormon church and was not on good terms with his family. We hiked with him one day, and through overhearing some of our conversations asked if we were Mormon (we are not). You made a friend. Pretty neat. Next destination: Yosemite. BUT Tim and Wade's high school friends' family lives in retirement haven: Carmel, CA.",
+        "choices": [
+            {
+                "id":"1baaaa",
+                "text":"Carmel"
+            }
+        ]
+    },
+    {
+        "id": "1baab",
+        "text": "No thanks",
+        "story": "So you'd rather be pestered by prairie dogs all night? Interesting. You survived though. First night of real camping in the books. Plus you saw some sea otters. Solid day. Next stop: Carmel, CA",
+        "choices": [
+            {
+                "id":"1baaaa",
+                "text":"Carmel"
+            }
+        ]
+    },
+    {
+        "id": "1baaaa",
+        "text": "Carmel",
+        "story": "You'll be staying with the Shirk family. They have wetsuits and snorkeling gear at your disposal. Snorkeling or Surfing?",
+        "choices": [
+            {
+                "id":"1baaaaa",
+                "text": "Snorkel"
+            }, {
+                "id":"1baaaab",
+                "text": "Surfs up!"
+            }
+        ]
+    },
+    {
+        "id":"1baaaaa",
+        "text": "Snorkel",
+        "story":"Sea otters and seals but wow so cold. Not just the water, but the air. Cool but unpleasant. Wrap up, spend the evening and night in town, hit Yosemite tomorrow. Good call here. This was pleasant.",
+        "choices": [
+            {
+                "id":"1baaaaaa",
+                "text":"Yosemite"
+            }
+        ]
+    },
+    {
+        "id":"1baaaab",
+        "text": "Surfs up!",
+        "story": "Well, the locals are making fun of you because you're very obviously not a surfer. Whatever man. That's like, your opinion! Oh well. Let's hit the road anyway.",
+        "choices": [
+            {
+                "id":"1baaaaaa",
+                "text":"Yosemite"
+            }
+        ]       
+    },
+    {
+        "id":"1baaaaaa",
+        "text":"Yosemite",
+        "story":"You're here, but you don't have a lot of time. Gotta pick up Steven from the Sacramento airport tonight actually. You're going on the mist trail which is either 4 miles round trip or 8 round trip if you go to the very top.",
+        "choices": [
+            {
+                "id":"1baaaaaaa",
+                "text":"Top!"
+            }, {
+                "id":"1baaaaaab",
+                "text":"Not the top..."
+            }
+        ]       
+    },
+    {
+        "id":"1baaaaaaa",
+        "text":"Top!",
+        "story": "Since you have like no time to explore the park, you all practically sprinted the entire trail. It is not an easy trail. You are dehydrated and basically dead, but you gotta do something. It's Yosemite after all. So you find a meadow, and lay in the grass and gaze up at some of the greatest landmarks in the country. Neat. Time to pack up, sun is setting. Gotta go to Sacramento to pick up Steven",
+        "choices": [
+            {
+                "id":"1baaaaaaba",
+                "text": "Sacramento"
+            }, {
+                "id": "1baaaaaabb",
+                "text": "Forget Steven"
+            }
+        ]
+    },
+    {
+        "id":"1baaaaaab",
+        "text":"Not the top...",
+        "story": "You got some time to kill now. Mirror lake trail and then swimming and relaxing in the meadow, surrounded by some of the most iconic landmarks in the country. Time to pack up, sun is setting. Gotta go to Sacramento to pick up Steven",
+        "choices": [
+            {
+                "id":"1baaaaaaba",
+                "text": "Sacramento"
+            }, {
+                "id": "1baaaaaabb",
+                "text": "Forget Steven"
+            }
+        ]
+    },
+    {
+        "id":"1baaaaaaba",
+        "text":"Sacramento",
+        "story":"Great, picked up Steven, stayed the night in a hotel and got some In-n-Out to feed your ravenous bellies. Much needed. Onward to Tahoe in the morning!",
+        "choices": [
+            {
+                "id": "1baaaaaabaa",
+                "text":"Lake Tahoe"
+            }
+        ]
+    },
+    {
+        "id": "1baaaaaabb",
+        "text": "Forget Steven",
+        "story":"Very rude. You drive straight to Tahoe and Steve managed to meet there but, he's not happy that's for sure. You're at Sugar Pine Point State Park.",
+        "choices": [
+            {
+                "id": "1baaaaaabaa",
+                "text":"Lake Tahoe"
+            }
+        ]
+    },
+    {
+        "id": "1baaaaaabaa",
+        "text":"Lake Tahoe",
+        "story":"You've been reading about bears a lot. They're pretty active around this time of year. When the gang pulled up to the State Park, there was a sign that showed how many bear sightings there were in the last week. There were 9... Still feel good about camping here?"       ,
+        "choices":[
+            {
+                "id":"1baaaaaabaaa",
+                "text": "Yes...?"
+            }, {
+                "id": "1baaaaaabaab",
+                "text":"Not a chance."
+            }
+        ]
+    },
+    {
+        "id":"1baaaaaabaaa",
+        "text": "Yes...?",
+        "story":"Okay, good thing you know exactly how to not encounter a bear. Anything scented goes in the bear locker. Whatever you were wearing while cooking and eating - don't wear that to sleep. Oh and do all of your cooking away from your tents. Back at the site after spending the day hiking. Oh, what's that? They started cooking in the middle of the site? No problem you'll just have to set up the tents way over there. Before going to bed, you made the entire group remove all the clothes they were wearing while eating/cooking and store them in the bear locker. Basically, a bunch of random families nearby got a glimpse of a bunch of skinny white guys prancing around in their underwear. Thanks a lot, bears. Oh well, goodnight. We're hitting the road in the morning - on to Oregon. Problem: there's snow in the forecast at Crater Lake, your next stop. Audible or go anyway?",
+        "choices":[
+            {
+                "id":"1baaaaaabaaaa",
+                "text":"Crater Lake"
+            }, {
+                "id":"1baaaaaabaaab",
+                "text": "Fourmile Lake"
+            }
+        ]
+    },
+    {
+        "id": "1baaaaaabaab",
+        "text":"Not a chance.",
+        "story": "Turns out, bears are pretty unavoidable around here... and they can smell through cars. Now you have no bear locker to lock in those scents. Not ready to leave Tahoe, you drove around the city for the night to avoid a bear encounter. Rough night. Next day you spent fly fishing and hiking around the area. But you have one more night in Tahoe... better get over it and camp anyway. Before going to bed, you made the entire group remove all the clothes they were wearing while eating/cooking and store them in the bear locker. Basically, a bunch of random families nearby got a glimpse of a bunch of skinny white guys prancing around in their underwear. Thanks a lot, bears. Oh well, goodnight. We're hitting the road in the morning - on to Oregon. Problem: there's snow in the forecast at Crater Lake, your next stop. Audible or go anyway?",
+        "choices": [
+            {
+                "id":"1baaaaaabaaaa",
+                "text":"Crater Lake"
+            }, {
+                "id":"1baaaaaabaaab",
+                "text": "Fourmile Lake"
+            }
+        ]
+    },
+    {
+        "id":"1baaaaaabaaaa",
+        "text":"Crater Lake",
+        "story": "Ya, you got snowed on. Not great. Plus, you all were too tired to really explore the national park, but, hey, now you can say you've been there which is pretty cool.",
+        "choices": [
+            {
+                "id": "1baaaaaabaaaab",
+                "text":"Columbia River Gorge and Portland"
+            }
+        ]       
+    },
+    {
+        "id":"1baaaaaabaaab",
+        "text": "Fourmile Lake",
+        "story": "Well, it snowed here too unfortunately. But, now you can say you've camped in snow which is kind of hardcore. Columbia River Gorge is next.",
+        "choices": [
+            {
+                "id": "1baaaaaabaaaab",
+                "text":"Columbia River Gorge and Portland"               
+            }
+        ]
+    },
+    {
+        "id": "1baaaaaabaaaab",
+        "text":"Columbia River Gorge and Portland",
+        "story": "Okay, Portland is cool. Good evening spent having a few beers, waking up in the morning to hike in the gorge. One of those hikes is Lower Oneonta Falls. Part of the hike requires you to wade through glacier runoff. So, do you want to rent a wetsuit in Portland or just tough it out..?",
+        "choices": [
+            {
+                "id": "1baaaaaabaaaaba",
+                "text": "Wetsuit"
+            }, {
+                "id": "1baaaaaabaaaabb",
+                "text": "Tough it out"
+            }
+        ]
+    },
+    {
+        "id": "1baaaaaabaaaaba",
+        "text": "Wetsuit",
+        "story": "Probably unnecessary, but good to have I guess. Only problem is, where are you gonna change into this? We changed right by our car. One person at a time, but we had the rest on lookout duty to make sure no strangers saw something they didn't want to. When ready, we hiked into the falls. It was tremendous. Truly a stunning place. And, you walked up on a wedding. No joke. But when we got back, we found that the car had been broken into. They stole all of Steven, Tim, and Trey's clothes in addition to a few other things here and there. But for some reason, they had no interest in your laptop that was sitting out in the middle of the car. Crazy. We had to pack up our campsite anyway, and drive to Portland to get another rental car. They downsized us... that's just great. Now on to Seattle, the final stop before heading back.",
+        "choices": [
+            {
+                "id":"1baaaaaabaaaabaa",
+                "text":"Seattle"
+            }
+        ]       
+    },
+    {
+        "id": "1baaaaaabaaaabb",
+        "text": "Tough it out",
+        "story":"This would work too probably. The water is super cold though so you didn't spend much time in it, which means you didn't get to pseudo shower in the falls like you intended so everyone smells bad still. While you were at the falls, you saw two people getting married. No joke. But when we got back, we found that the car had been broken into. They stole all of Steven, Tim, and Trey's clothes in addition to a few other things here and there. But for some reason, they had no interest in your laptop that was sitting out in the middle of the car. Crazy. We had to pack up our campsite anyway, and drive to Portland to get another rental car. They downsized us... that's just great. Now on to Seattle, the final stop before heading back.",
+        "choices": [
+            {
+                "id":"1baaaaaabaaaabaa",
+                "text":"Seattle"
+            }
+        ]
+    },
+    {
+        "id":"1baaaaaabaaaabaa",
+        "text":"Seattle",
+        "story":"After so many hours in a cramped car, several awesome sights, and more than enough strange mishaps, you made it to Seattle. No camping, no mishaps, just hanging out in Seattle. Congratulations! Enjoy your time here, but you have to get back to SF before too long.",
+        "choices": [
+            {
+                "id": "1baaaaaabaaaabaaa",
+                "text": "SF and Home"
+            }
+        ]
+    },
+    {
+        "id": "1baaaaaabaaaabaaa",
+        "text": "SF and Home",
+        "story": "On the way back, you visit a few other campsites just for the sake of getting rest. Finally, back in SF. You can relax and reflect. Many of the things that occurred during the trip were frustrating, strange, or otherwise plain 'not good'. Seattle is an incredible city, but what was truly the most entertaining and memorable part of the trip? It's a cliché that we hear all the time. But, the journey is often the fun part. Live in a journey, aiming for a destination. If you reach the destination, go further. This isn't to say that you should never slow down, though. Be present in whatever you are doing, and don't worry about the future, the destination. The end. Check out photos from the trip!",
+        "choices": [
+            {
+                "id":"0",
+                "text": "Go back to the start"
+            }
+        ]
+    }
+]
