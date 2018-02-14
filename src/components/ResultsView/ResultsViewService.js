@@ -90,8 +90,8 @@ export function initMap (mapDiv, userLocation) {
           });
             mapDiv.style.right = "0vw";
             mapDiv.style.top = "0vh";
-            mapDiv.style.height = '80vh';
-            mapDiv.style.window = '80vw';
+            // mapDiv.style.height = '80vh';
+            // mapDiv.style.window = '80vw';
     
     }
     export function setMarkers (mapDiv, array) {

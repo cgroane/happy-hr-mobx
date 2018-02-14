@@ -3,6 +3,7 @@ import axios from 'axios';
 const GET_DEALS = 'GET_DEALS';
 const GET_LOCATIONS = 'GET_LOCATIONS';
 const GET_USER_LOCATION = "GET_USER_LOCATION";
+const SET_DISTANCE = "SET_DISTANCE";
 
 const initialState = {
     userLocation: {},
@@ -26,15 +27,27 @@ export default function(state = initialState, action) {
     }
 }
 
-export function getDeals() {
+export function sortDeals(array) {
     return {
         type: GET_DEALS,
-        payload: axios.get('/api/deals').then(response => response.data)
+        payload: array.sort((a, b) => a.distance - b.distance)
     }
 }
 export function getLocations() {
     return {
         type: GET_LOCATIONS,
         payload: axios.get('/api/deals/location').then(response => response.data)
+    }
+}
+export function getUserLocation(location) {
+    return {
+        type: GET_USER_LOCATION,
+        payload: location
+    }
+}
+export function setDistance(array) {
+    return {
+        type: SET_DISTANCE,
+        payload: array
     }
 }

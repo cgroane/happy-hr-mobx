@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {getDeals, getLocations} from './ducks/reducer';
+import {css} from 'emotion';
+import {getLocations, getUserLocation} from './ducks/reducer';
 import logo from './logo.svg';
-import './App.css';
+import appStyle from './components/styles/appStyle';
 import router from './router';
 
 
@@ -15,24 +16,23 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    this.props.getLocations()
+    this.props.getLocations();
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.props.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})
+      })
+    }
   }
   render() {
-    const deals = this.props.deals.map((cur, ind, arr) => {
-      // make deal card here
-      // use emotion
-      return (
-        <div key={ind} >
-          {cur.title}
-        </div>
-      )
-    })
     return (
-      <div className="App">
-        {router}
+      <div className={appStyle.app} >
+        <div className={`${appStyle.header}`} >
+          This is a header.
+        </div>
+        <div className={`${appStyle.appContainer}`} >{router}</div>
       </div>
     );
   }
 }
 const mapStateToProps = state => state;
-export default connect(mapStateToProps, {getLocations, getDeals})(App);
+export default connect(mapStateToProps, {getLocations, getUserLocation})(App);

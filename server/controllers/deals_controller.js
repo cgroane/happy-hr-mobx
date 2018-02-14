@@ -1,5 +1,5 @@
 var deals = require('./../models/deals');
-
+var axios = require('axios');
 
 var Geocodio = require('geocodio');
 require('dotenv').config();
@@ -17,9 +17,10 @@ module.exports = {
         res.status(200).send(deals)
     },
     addDeal: (req, res, next) => {
+        
         deals.push(req.body);
         res.status(200).send(deals)
-        .catch(() => res.status(500).send())
+        .catch(() => res.status(500).send(deals))
     },
     generateCoordinates (req, res, next) {
         deals = deals.map((cur, ind, arr) => {
@@ -45,9 +46,17 @@ module.exports = {
     // function to calculate distance
     calcDistance (req, res, next) {
         //can just map into this and skip the geocoding. fuck.
-        res.status(200).send(deals)
-        // var myLocation = {lat: 32.813085, lng: -96.762331}
-        // var userRests = deals.map((cur, ind, arr) => {
+        var userRests = req.body.deals.forEach((cur,ind, arr) => {
+            axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${req.body.userLocation}&destinations=${cur.location}&key=${process.env.GOOGLE_KEY}`).then(response => {
+                cur.response = response
+                console.log(cur)
+                return cur;
+            })
+            return cur
+        })
+        res.status(200).send(userRests)
+        // var myLocation = req.body.userLocation;
+        // var userRests = req.body.deals.map((cur, ind, arr) => {
         //     return new Promise ((resolve, reject) => {
         //         googleMapsClient.distanceMatrix({
         //         origins: [myLocation],
@@ -58,7 +67,10 @@ module.exports = {
         //         if (status == 'OK') {
         //             var origins = response.originAddresses;
         //             var destinations = response.destinationAddress;
-        //             let obj = response.rows[0].elements[0].distance.text
+        //             console.log(response.rows[0].elements[0].distance.text)
+        //             let obj = response;
+        //         } else {
+        //             return status
         //         }
         //     })
         //     }
@@ -72,3 +84,4 @@ module.exports = {
         
     }
 }
+// New+York+City,NY
