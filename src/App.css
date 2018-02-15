@@ -1,1 +1,14 @@
+@font-face {
+    font-family: 'North';
+    font-style: bold;
+    font-weight: 800;
+    src: url('./components/assets/font/North-Regular.woff2');
+    src: url('./components/assets/font/North-Regular.woff2');
+}
+h1 {
+    font-family: 'North';
+}
 
+.appfont {
+    font-family: 'North';
+}

@@ -4,6 +4,9 @@ const GET_DEALS = 'GET_DEALS';
 const GET_LOCATIONS = 'GET_LOCATIONS';
 const GET_USER_LOCATION = "GET_USER_LOCATION";
 const SET_DISTANCE = "SET_DISTANCE";
+const SELECT_DEAL = "SELECT_DEAL";
+const FILTER_DEALS = "FILTER_DEALS"
+const SORT_DEALS = "SORT_DEALS";
 
 const initialState = {
     userLocation: {},
@@ -22,6 +25,10 @@ export default function(state = initialState, action) {
             return Object.assign({}, state, {deals: action.payload, isLoading: false})
         case GET_USER_LOCATION:
             return Object.assign({}, state, {userLocation: action.payload})
+        case FILTER_DEALS: 
+            return Object.assign({}, state, {deals:action.payload})
+        case SORT_DEALS:
+            return Object.assign({}, state, {deals: action.payload})
         default:
             return state;
     }
@@ -29,8 +36,8 @@ export default function(state = initialState, action) {
 
 export function sortDeals(array) {
     return {
-        type: GET_DEALS,
-        payload: array.sort((a, b) => a.distance - b.distance)
+        type: SORT_DEALS,
+        payload: array.sort((a, b) => a.distance.split(' ')[0]*1 - b.distance.split(' ')[0]*1)
     }
 }
 export function getLocations() {
@@ -49,5 +56,17 @@ export function setDistance(array) {
     return {
         type: SET_DISTANCE,
         payload: array
+    }
+}
+export function selectDeal(obj) {
+    return {
+        type: SELECT_DEAL,
+        payload: obj
+    }
+}
+export function filterDeals(array, date) {
+    return {
+        type: FILTER_DEALS,
+        payload: array.filter(x => x.days.findIndex(day => day !==date))
     }
 }

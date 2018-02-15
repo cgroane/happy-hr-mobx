@@ -25,11 +25,12 @@ class App extends Component {
   }
   render() {
     return (
-      <div className={appStyle.app} >
-        <div className={`${appStyle.header}`} >
-          This is a header.
-        </div>
+      <div className={`${appStyle.app}`} >
+        
         <div className={`${appStyle.appContainer}`} >{router}</div>
+        <div className={`${appStyle.footer}`} >
+          <span>this is a footer</span>
+        </div>
       </div>
     );
   }

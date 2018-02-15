@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {css} from 'emotion';
-import {sortDeals, getLocations, setDistance} from './../../ducks/reducer';
-import {initMap, setMarkers} from './ResultsViewService';
+import {sortDeals, getLocations, setDistance, filterDeals} from './../../ducks/reducer';
+import {initMap, setMarkers, updateDeals} from './ResultsViewService';
+import DropdownMenu, {DropdownItemGroup, DropdownItem} from '@atlaskit/dropdown-menu';
 import './ResultsView.css';
 import resultStyle from './../styles/resultStyle';
 import resultsFunctions from './../utility/functions';
+import ResultCard from './ResultCard/ResultCard';
 const google = window.google;
 
 class ResultsView extends Component {
@@ -25,64 +27,69 @@ class ResultsView extends Component {
 
     }
     componentDidUpdate(prevProps, prevState) {
+        if(this.props.deals != prevProps.deals) {
+            var deals = updateDeals.call(this, this.props.deals)
+            this.props.setDistance(deals)
+        }
         if (this.props.deals != prevProps.deals) {
             setMarkers.call(this, this.map, this.props.deals);
         }
         if (this.props.userLocation != prevProps.userLocation) {
-            // distance between a user and the locations of the deals is variable. Calculate the distance using the Google Maps API DistanceMatrixService and set the result onto each object. 
-            // the new array of objects will be stored in the the reducer, it overwrites the basic deals array
-            var newDeals = [];
-            newDeals = this.props.deals.map((cur, ind, arr) => {
-                var self = this;
-                var service = new google.maps.DistanceMatrixService();
-                service.getDistanceMatrix(
-                    {
-                        origins: [self.props.userLocation],
-                        destinations: [cur.location],
-                        unitSystem: google.maps.UnitSystem.IMPERIAL,
-                        travelMode: 'DRIVING'
-                    }, (response, status) => {
-                        if (status == 'OK') {
-                            console.log(response)
-                            cur.distance = response.rows[0].elements[0].distance.text;
-                        }
-                    }
-                )
-                console.log(cur)
-                return cur;
-            })
+
+// calculate distance between user and deal
+            var newDeals= updateDeals.call(this, this.props.deals)
+
             newDeals.sort((a ,b) => a.distance - b.distance)
             this.props.setDistance(newDeals)
-            this.props.sortDeals(this.props.deals)
+            // this.props.sortDeals(this.props.deals)
+            // sort should not be done on mount - allow user to select this option
+            // user will also be able to filter based on active or not -- need to get current date
         }
     }
     render() {
-        // define details modal -- variable that is null if this.props.selected is null.
+        // creates card with props
+        const deals = resultsFunctions.mapToCard(this.props.deals)
 
-        // create list item to render to left of map
-        
-        const deals = this.props.deals.map((cur,ind, arr) => {
-            return (
-                <div key={cur.id} value={cur.id} className={`${resultStyle.dealCard}`} >
-                    <div>
-                        <h1>{cur.title}</h1>
-                    </div>
-                    <ul> 
-                        {resultsFunctions.days(cur.days)}
-                    </ul>
-                </div>
-            )
-        })
         return (
             <div className={`${resultStyle.resultsContainer}`} >
+                <div className={`${resultStyle.header}`} >
+
+                    <DropdownMenu 
+                        trigger="Sort by distance"
+                        triggerType="button"
+                        shouldFlip={true}
+                        position="right middle"
+                        shouldFitContainer={true}
+                        onOpenchange={e => console.log('dropdown opened', e)}
+                    >
+                        <DropdownItemGroup>
+                            <DropdownItem value="shortestToLongest" onClick={() => this.props.sortDeals(this.props.deals)} >Shortest to Longest</DropdownItem>
+                            <DropdownItem value="longestToShortest" >Longest to Shortest</DropdownItem>
+                        </DropdownItemGroup>
+                    </DropdownMenu>
+
+                    <DropdownMenu 
+                        trigger="Active?"
+                        triggerType="button"
+                        shouldFlip={false}
+                        position="right middle"
+                        onOpenchange={e => console.log('dropdown opened', e)}
+                    >
+                        <DropdownItemGroup>
+                            <DropdownItem onClick={() => this.props.filterDeals(this.props.deals, "Monday")} >Active</DropdownItem>
+                            <DropdownItem onClick={() => this.props.getLocations()} >Don't care</DropdownItem>
+                        </DropdownItemGroup>
+                    </DropdownMenu>
+                </div>
+
                 <div className={`${resultStyle.dealList}`} >{deals}</div>
+
                 <div className={`${resultStyle.mapContainer}`} >
                     <div id="gmap" ref={ref => (this.gmap = ref)} />
                 </div>
-                
             </div>
         )
     }
 }
 const mapStateToProps = state => state;
-export default connect(mapStateToProps, {sortDeals, getLocations, setDistance})(ResultsView);
+export default connect(mapStateToProps, {sortDeals, getLocations, setDistance, filterDeals})(ResultsView);
