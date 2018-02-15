@@ -9,6 +9,7 @@ class ResultCard extends Component {
     constructor(props) {
         super(props)
     }
+    
     componentDidUpdate(prevProps, prevState) {
         if (this.props.userLocation != prevProps.userLocation) {
 
@@ -29,11 +30,18 @@ class ResultCard extends Component {
             <div key={item.id} value={item.id} className={`${ResultCardStyles.dealCard}`} >
                 <div>
                     <h1>{item.title}</h1>
+                    <div className={`${ResultCardStyles.restaurantDetails}`} >
+                        <h2>{item.restaurant.name}</h2>
+                        <span>{item.restaurant.addressOne}, {item.restaurant.city}, {item.restaurant.state}, {item.restaurant.zip}</span>
+                    </div>
                     <span>{item.distance}</span>
                 </div>
                 <ul> 
                     {resultsFunctions.days(item.days)}
                 </ul>
+                <div  >
+                    {item.details}
+                </div>
             </div>
         )
     }

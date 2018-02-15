@@ -1,5 +1,6 @@
 import React from 'react';
 import resultStyle from './../styles/resultStyle';
+import AddNewStyle from './../AddNew/AddNewStyle';
 import ResultCard from './../ResultsView/ResultCard/ResultCard';
 
 export default {
@@ -9,14 +10,14 @@ export default {
             // console.log(arr)
             return (
                 ind == array.length-1 ?
-                <li key={cur.ind} >{cur}</li> : <li key={cur.ind} >{cur}, </li>
+                <li key={ind} >{cur}</li> : <li key={ind} >{cur}, </li>
             )
         })
     },
     mapToCard: function (arr) {
         return arr.map((cur, ind, array) => {
             return <ResultCard 
-                        key={cur.ind} 
+                        key={ind} 
                         value={cur.id} 
                         title={cur.title} 
                         restaurant={cur.restaurant} 
@@ -26,4 +27,15 @@ export default {
                     />
         })
     },
+    daysBoxes: function(arr, onChangeFunc) {
+        return arr.map((cur, ind, array) => {
+            return (
+                <div className={`${AddNewStyle.checks}`} key={ind} >
+                    <label>
+                        <input type="checkbox" name={cur} value={cur} onChange={onChangeFunc} />{cur}
+                    </label>
+                </div>
+            )
+        })
+    }
 }

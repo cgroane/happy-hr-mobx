@@ -3,6 +3,7 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import {css} from 'emotion';
 import {getLocations, getUserLocation} from './ducks/reducer';
+import {Link, withRouter} from 'react-router-dom'
 import logo from './logo.svg';
 import appStyle from './components/styles/appStyle';
 import router from './router';
@@ -16,20 +17,17 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    this.props.getLocations();
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.props.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})
-      })
-    }
+    
   }
   render() {
+    
     return (
+      
       <div className={`${appStyle.app}`} >
         
         <div className={`${appStyle.appContainer}`} >{router}</div>
         <div className={`${appStyle.footer}`} >
-          <span>this is a footer</span>
+          <Link to="/add_new" ><span>this is a footer</span></Link>
         </div>
       </div>
     );

@@ -7,30 +7,38 @@ const SET_DISTANCE = "SET_DISTANCE";
 const SELECT_DEAL = "SELECT_DEAL";
 const FILTER_DEALS = "FILTER_DEALS"
 const SORT_DEALS = "SORT_DEALS";
+const GET_DAY = "GET_DAY"
 
 const initialState = {
     userLocation: {},
     deals: [],
+    staticDeals: [],
 }
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case GET_DEALS + "_PENDING":
-            return Object.assign({}, state, {isLoading: true});
-        case GET_DEALS + "_FULFILLED":
-            return Object.assign({}, state, {deals: action.payload, isLoading: false})
+        case GET_DEALS:
+            return Object.assign({}, state, {deals: action.payload});
         case GET_LOCATIONS + "_PENDING":
             return Object.assign({}, state, {isLoading: true})
         case GET_LOCATIONS + "_FULFILLED":
-            return Object.assign({}, state, {deals: action.payload, isLoading: false})
+            return Object.assign({}, state, {deals: action.payload, staticDeals: action.payload ,isLoading: false})
         case GET_USER_LOCATION:
             return Object.assign({}, state, {userLocation: action.payload})
         case FILTER_DEALS: 
             return Object.assign({}, state, {deals:action.payload})
         case SORT_DEALS:
             return Object.assign({}, state, {deals: action.payload})
+        case GET_DAY:
+            return Object.assign({}, state, {day: action.payload})
         default:
             return state;
+    }
+}
+export function getDeals(arr) {
+    return {
+        type: GET_DEALS,
+        payload: arr
     }
 }
 
@@ -68,5 +76,11 @@ export function filterDeals(array, date) {
     return {
         type: FILTER_DEALS,
         payload: array.filter(x => x.days.findIndex(day => day !==date))
+    }
+}
+export function getDayOfWeek(day) {
+    return {
+        type: GET_DAY,
+        payload: day
     }
 }

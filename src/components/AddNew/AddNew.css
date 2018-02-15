@@ -1,0 +1,35 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.formText {
+    background: none;
+    font-size: 25px;
+    margin: 5px;
+    border: none;
+    border-bottom: 2px solid #365DD6;
+    text-align: center;
+}
+.formText:focus {
+    outline: none;
+}
+.checkBoxContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.checks {
+    display: block;
+    
+    margin: 5px;
+    text-align: center;
+}
+.checks label {
+    display: block;
+}

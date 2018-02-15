@@ -3,7 +3,7 @@ import {css} from 'emotion';
 export default {
     dealCard: css`
         width: 90%;
-        height: 80%;
+        height: 60%;
         display: flex;
         background: white;
         flex-direction: column;
@@ -17,9 +17,24 @@ export default {
             list-style: none;
             display: flex;
             flex-direction: row;
+            padding-left: 0;
             & li {
                 margin: 3px;
             }
+        }
+        & h2 {
+            
+        }
+    `,
+    restaurantDetails: css`
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom 1px solid #365DD6;
+        & span {
+            font-size: 0.7rem;
+            color: slategrey;
         }
     `
 }
