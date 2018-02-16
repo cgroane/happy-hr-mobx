@@ -44,8 +44,6 @@ class ResultsView extends Component {
     
    
     componentDidUpdate(prevProps, prevState) {
-        console.log(prevProps.deals)
-            console.log(this.props.deals)
         if(this.props.deals !== prevProps.deals) {
             console.log(prevProps.deals)
             console.log(this.props.deals)

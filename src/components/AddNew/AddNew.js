@@ -71,11 +71,24 @@ class AddNew extends Component {
                 state: this.state.state,
                 zip: this.state.zip
             }
+        } 
+        for (let prop in deal) {
+            var checkFields;
+            if (!deal[prop]) {
+                checkFields = false;
+                break;
+            } else {
+                checkFields = true;
+            }   
+        } 
+         if(checkFields ){
+                return axios.post('/api/deals', deal).then(() => {
+                    this.props.history.push('/')
+                return this.props.getLocations()
+            })
+        } else {
+            alert(`If you leave any fields blank, the goecoder won't work properly and you might break my server. Fill them all out, not too hard. Also there's no data validation on the backend. So if you enter a bogus restaurant name and address and city, you also might break my server. Thank you for cooperating!`)
         }
-        return axios.post('/api/deals', deal).then(() => {
-            this.props.history.push('/')
-            return this.props.getLocations()
-        })
     }
     
     render() {
