@@ -12,3 +12,7 @@ h1 {
 .appfont {
     font-family: 'North';
 }
+.footerCss:hover {
+    background: #365DD6;
+    color: white;
+}

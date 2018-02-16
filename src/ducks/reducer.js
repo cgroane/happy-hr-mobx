@@ -7,7 +7,8 @@ const SET_DISTANCE = "SET_DISTANCE";
 const SELECT_DEAL = "SELECT_DEAL";
 const FILTER_DEALS = "FILTER_DEALS"
 const SORT_DEALS = "SORT_DEALS";
-const GET_DAY = "GET_DAY"
+const GET_DAY = "GET_DAY";
+const SORT_DEALS_DECREASING = "SORT_DEALS_DECREASING";
 
 const initialState = {
     userLocation: {},
@@ -28,9 +29,19 @@ export default function(state = initialState, action) {
         case FILTER_DEALS: 
             return Object.assign({}, state, {deals:action.payload})
         case SORT_DEALS:
-            return Object.assign({}, state, {deals: action.payload})
+        {
+            var newArr = [...action.payload];
+                newArr.sort((a, b) => a.distance.split(' ')[0]*1 - b.distance.split(' ')[0]*1)
+                return Object.assign({}, state, {deals: newArr})
+        }
         case GET_DAY:
             return Object.assign({}, state, {day: action.payload})
+        case SORT_DEALS_DECREASING:
+            {
+                var newArr = [...action.payload];
+                newArr.sort((a, b) => a.distance.split(' ')[0]*1 - b.distance.split(' ')[0]*1).reverse()
+                return Object.assign({}, state, {deals: newArr})
+            }
         default:
             return state;
     }
@@ -45,7 +56,7 @@ export function getDeals(arr) {
 export function sortDeals(array) {
     return {
         type: SORT_DEALS,
-        payload: array.sort((a, b) => a.distance.split(' ')[0]*1 - b.distance.split(' ')[0]*1)
+        payload: array
     }
 }
 export function getLocations() {
@@ -82,5 +93,11 @@ export function getDayOfWeek(day) {
     return {
         type: GET_DAY,
         payload: day
+    }
+}
+export function reverseSort(array) {
+    return {
+        type: SORT_DEALS_DECREASING,
+        payload: array
     }
 }

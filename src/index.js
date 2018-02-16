@@ -9,11 +9,16 @@ import store from './store';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-    <BrowserRouter>
+    
+        
+        <BrowserRouter>
         <Provider store={store}>
             <App /> 
-        </Provider>
-    </BrowserRouter>,
+            </Provider>
+        </BrowserRouter>
+        
+
+    ,
 
 document.getElementById('root'));
 registerServiceWorker();
@@ -27,6 +32,10 @@ body {
     margin: 0;
     font-family: 'BioRhyme Expanded', serif;
 
+}
+a {
+    text-decoration: none;
+    color: #365DD6
 }
 
 `

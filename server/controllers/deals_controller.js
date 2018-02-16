@@ -28,7 +28,7 @@ module.exports = {
         
     },
     generateCoordinates (req, res, next) {
-        deals = deals.map((cur, ind, arr) => {
+        newDeals = deals.map((cur, ind, arr) => {
                return new Promise (function(resolve, reject) { geocodio.get('geocode',  {q: `${cur.restaurant.addressOne}, ${cur.restaurant.city}, ${cur.restaurant.state}, ${cur.restaurant.zip}`}, function(err, response) {
                    console.log(cur)
                         if (err) {
@@ -48,7 +48,7 @@ module.exports = {
                 })
                 return cur;
         })
-        Promise.all(deals).then(results => res.status(200).send(results)).catch((err) => res.status(500).send(console.log(err)))
+        Promise.all(newDeals).then(results => res.status(200).send(results)).catch((err) => res.status(500).send(console.log(err)))
     },
     // function to calculate distance
     calcDistance (req, res, next) {

@@ -27,7 +27,7 @@ class ResultCard extends Component {
     render() {
         let item = this.props;
         return (
-            <div key={item.id} value={item.id} className={`${ResultCardStyles.dealCard}`} >
+            <div key={item.key} value={item.id} className={`${ResultCardStyles.dealCard}`} >
                 <div>
                     <h1>{item.title}</h1>
                     <div className={`${ResultCardStyles.restaurantDetails}`} >

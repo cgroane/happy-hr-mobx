@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {css} from 'emotion';
 import {Link, withRouter} from 'react-router-dom';
 import moment from 'moment';
-import {sortDeals, getLocations, setDistance, filterDeals, getDayOfWeek, getUserLocation, getDeals} from './../../ducks/reducer';
+import {sortDeals, getLocations, setDistance, filterDeals, getDayOfWeek, getUserLocation, getDeals, reverseSort} from './../../ducks/reducer';
 import {initMap, setMarkers, updateDeals} from './ResultsViewService';
 import DropdownMenu, {DropdownItemGroup, DropdownItem} from '@atlaskit/dropdown-menu';
 import './ResultsView.css';
@@ -36,15 +36,19 @@ class ResultsView extends Component {
         //set day of week
         let now = new Date();
         now = now.getDay();
-        // now = moment().isoWeekday(now);
-        this.props.getDayOfWeek(moment().isoWeekday(now))
+        now = moment().weekday(now);
+        console.log(now)
         
         console.log(this.props.day)
     }
     
    
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.deals != prevProps.deals) {
+        console.log(prevProps.deals)
+            console.log(this.props.deals)
+        if(this.props.deals !== prevProps.deals) {
+            console.log(prevProps.deals)
+            console.log(this.props.deals)
             // get distance
             var deals = updateDeals.call(this, this.props.deals)
             //set distance in reducer
@@ -52,7 +56,7 @@ class ResultsView extends Component {
             setMarkers.call(this, this.map, this.props.deals);
         }
         if (this.props.userLocation != prevProps.userLocation) {
-            this.props.getLocations()
+            this.props.getLocations().then((response) => this.props.setDistance(response.data))
             var newDeals= updateDeals.call(this, this.props.deals)
             newDeals.sort((a ,b) => a.distance - b.distance)
             this.props.setDistance(newDeals)
@@ -76,7 +80,7 @@ class ResultsView extends Component {
                     >
                         <DropdownItemGroup>
                             <DropdownItem value="shortestToLongest" onClick={() => this.props.sortDeals(this.props.deals)} >Shortest to Longest</DropdownItem>
-                            <DropdownItem value="longestToShortest" >Longest to Shortest</DropdownItem>
+                            <DropdownItem value="longestToShortest" onClick={() => this.props.reverseSort(this.props.deals)} >Longest to Shortest</DropdownItem>
                         </DropdownItemGroup>
                     </DropdownMenu>
 
@@ -88,7 +92,7 @@ class ResultsView extends Component {
                         onOpenchange={e => console.log('dropdown opened', e)}
                     >
                         <DropdownItemGroup>
-                            <DropdownItem onClick={() => this.props.filterDeals(this.props.deals, "Monday")} >Active</DropdownItem>
+                            <DropdownItem onClick={() => this.props.filterDeals(this.props.staticDeals, "Monday")} >Active</DropdownItem>
                             <DropdownItem onClick={() => this.props.getDeals(this.props.staticDeals)} >Don't care</DropdownItem>
                         </DropdownItemGroup>
                     </DropdownMenu>
@@ -100,11 +104,11 @@ class ResultsView extends Component {
                     <div id="gmap" ref={ref => (this.gmap = ref)} />
                 </div>
                 <div className={`${appStyle.footer}`} >
-                    <Link to="/add_new" ><span>this is a footer</span></Link>
+                    <Link to="/add_new" ><span>Add New Deal (cc: @Franklin Roosevelt)</span></Link>
                 </div>
             </div>
         )
     }
 }
 const mapStateToProps = state => state;
-export default withRouter(connect(mapStateToProps, {sortDeals, getLocations, setDistance, filterDeals, getDayOfWeek, getUserLocation, getDeals})(ResultsView));
+export default connect(mapStateToProps, {sortDeals, getLocations, setDistance, filterDeals, getDayOfWeek, getUserLocation, getDeals, reverseSort})(ResultsView)

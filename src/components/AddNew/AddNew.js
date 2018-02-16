@@ -10,7 +10,7 @@ import AddNewStyle from './AddNewStyle';
 import functions from './../utility/functions';
 import './AddNew.css';
 
-const google = window.google;
+// const google = window.google;
 
 class AddNew extends Component {
     constructor(props) {
@@ -65,13 +65,17 @@ class AddNew extends Component {
             details: this.state.details,
             days: this.state.newDays,
             restaurant: {
+                name: this.state.name,
                 addressOne: this.state.addressOne,
                 city: this.state.city,
                 state: this.state.state,
                 zip: this.state.zip
             }
         }
-        return axios.post('/api/deals', deal).then(() => this.props.getLocations())
+        return axios.post('/api/deals', deal).then(() => {
+            this.props.history.push('/')
+            return this.props.getLocations()
+        })
     }
     
     render() {
@@ -93,13 +97,13 @@ class AddNew extends Component {
                 </div>
 
                 <div>
-                    <Link to="/" ><button onClick={this.handleSubmit} >
+                    <button onClick={this.handleSubmit} >
                         Post
-                    </button>    </Link>
+                    </button>
                 </div>
             </form>
             <div className={`${appStyle.footer}`} >
-                    <Link to="/" ><span>this is a footer</span></Link>
+                    <Link to="/" ><span>Back to home</span></Link>
                 </div>
             </div>
         )
@@ -107,4 +111,4 @@ class AddNew extends Component {
 
 }
 const mapStateToProps = state => state
-export default connect(mapStateToProps, {sortDeals, getLocations, setDistance}) (AddNew) 
+export default connect(mapStateToProps, {sortDeals, getLocations, setDistance}) (AddNew);

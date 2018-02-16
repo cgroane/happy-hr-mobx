@@ -26,12 +26,10 @@ class App extends Component {
       <div className={`${appStyle.app}`} >
         
         <div className={`${appStyle.appContainer}`} >{router}</div>
-        <div className={`${appStyle.footer}`} >
-          <Link to="/add_new" ><span>this is a footer</span></Link>
-        </div>
+        
       </div>
     );
   }
 }
-const mapStateToProps = state => state;
-export default connect(mapStateToProps, {getLocations, getUserLocation})(App);
+// const mapStateToProps = state => state;
+export default (App);
