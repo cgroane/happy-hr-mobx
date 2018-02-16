@@ -16,3 +16,4 @@ app.post('/api/deals/distance', dealsCtrl.calcDistance, dealsCtrl.generateCoordi
 app.listen(port, () => {
     console.log(`Listening on port: ${port}`)
 })
+

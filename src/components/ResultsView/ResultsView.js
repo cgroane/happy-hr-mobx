@@ -17,8 +17,7 @@ class ResultsView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            markers: [],
-            addModal: false
+            day: "",
         }
     }
     componentDidMount() {
@@ -34,9 +33,13 @@ class ResultsView extends Component {
         }
         initMap.call(this, this.gmap, uluru);
         //set day of week
+        let daysOfWeek = ["Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday", "Sunday"]
         let now = new Date();
         now = now.getDay();
-        now = moment().weekday(now);
+        now = daysOfWeek[now-1]
+        this.setState({
+            day:now.toString()
+        })
         console.log(now)
         
         console.log(this.props.day)
@@ -90,7 +93,7 @@ class ResultsView extends Component {
                         onOpenchange={e => console.log('dropdown opened', e)}
                     >
                         <DropdownItemGroup>
-                            <DropdownItem onClick={() => this.props.filterDeals(this.props.staticDeals, "Monday")} >Active</DropdownItem>
+                            <DropdownItem onClick={() => this.props.filterDeals(this.props.staticDeals)} >Active</DropdownItem>
                             <DropdownItem onClick={() => this.props.getDeals(this.props.staticDeals)} >Don't care</DropdownItem>
                         </DropdownItemGroup>
                     </DropdownMenu>

@@ -27,7 +27,15 @@ export default function(state = initialState, action) {
         case GET_USER_LOCATION:
             return Object.assign({}, state, {userLocation: action.payload})
         case FILTER_DEALS: 
-            return Object.assign({}, state, {deals:action.payload})
+            {
+                let daysOfWeek = ["Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday", "Sunday"]
+                let now = new Date();
+                now = now.getDay();
+                now = daysOfWeek[now-1]
+                var newArr = action.payload
+                newArr = newArr.filter(x => x.days.find(day => day ==now))
+                return Object.assign({}, state, {deals:newArr})
+            }
         case SORT_DEALS:
         {
             var newArr = [...action.payload];
@@ -83,10 +91,10 @@ export function selectDeal(obj) {
         payload: obj
     }
 }
-export function filterDeals(array, date) {
+export function filterDeals(array) {
     return {
         type: FILTER_DEALS,
-        payload: array.filter(x => x.days.findIndex(day => day !==date))
+        payload: array
     }
 }
 export function getDayOfWeek(day) {
