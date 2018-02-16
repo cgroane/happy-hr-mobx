@@ -62,33 +62,5 @@ module.exports = {
             return cur
         })
         res.status(200).send(userRests)
-        // var myLocation = req.body.userLocation;
-        // var userRests = req.body.deals.map((cur, ind, arr) => {
-        //     return new Promise ((resolve, reject) => {
-        //         googleMapsClient.distanceMatrix({
-        //         origins: [myLocation],
-        //         destinations: [cur.location],
-        //         units: 'imperial'
-    
-        //     }, (response, status) => {
-        //         if (status == 'OK') {
-        //             var origins = response.originAddresses;
-        //             var destinations = response.destinationAddress;
-        //             console.log(response.rows[0].elements[0].distance.text)
-        //             let obj = response;
-        //         } else {
-        //             return status
-        //         }
-        //     })
-        //     }
-        //     ).then((obj) => {
-        //         cur.distance = obj;
-        //         return cur;
-        //     })
-        //     return cur;
-        // })
-        // Promise.all(userRests).then(results => res.status(200).send(results))
-        
     }
 }
-// New+York+City,NY

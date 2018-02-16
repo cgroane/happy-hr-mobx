@@ -46,11 +46,3 @@ export default {
         font-size: 1.2rem;
     `
 }
-
-// @font-face: {
-//     font-family: 'North-Header';
-//     font-style: bold;
-//     font-weight: 800;
-//     src:    local('./assets/font/North-Regular.woff')
-//             local('./assets/font/North-Regular.woff2');
-// }

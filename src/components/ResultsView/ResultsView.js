@@ -21,7 +21,7 @@ class ResultsView extends Component {
         }
     }
     componentDidMount() {
-        // this.props.getLocations();
+        
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
                 this.props.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})

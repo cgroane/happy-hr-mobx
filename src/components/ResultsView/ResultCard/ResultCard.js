@@ -13,14 +13,7 @@ class ResultCard extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.props.userLocation != prevProps.userLocation) {
 
-            // calculate distance between user and deal
             var newDeals= updateDeals.call(this, this.props.deals)
-
-            // newDeals.sort((a ,b) => a.distance - b.distance)
-            // this.props.setDistance(newDeals)
-                        
-                // sort should not be done on mount - allow user to select this option
-                // user will also be able to filter based on active or not -- need to get current date
             }
     }
     
