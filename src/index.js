@@ -6,7 +6,6 @@ import {injectGlobal} from 'emotion';
 import './index.css';
 import App from './App';
 import store from './store';
-import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
     
@@ -21,7 +20,7 @@ ReactDOM.render(
     ,
 
 document.getElementById('root'));
-registerServiceWorker();
+
 
 injectGlobal`
 @import url('https://fonts.googleapis.com/css?family=Roboto:700');
