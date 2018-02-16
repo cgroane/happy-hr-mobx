@@ -1,28 +1,18 @@
-.App {
-  text-align: center;
+@font-face {
+    font-family: 'North';
+    font-style: bold;
+    font-weight: 800;
+    src: url('./components/assets/font/North-Regular.woff2');
+    src: url('./components/assets/font/North-Regular.woff2');
+}
+h1 {
+    font-family: 'North';
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.appfont {
+    font-family: 'North';
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.footerCss:hover {
+    background: #365DD6;
+    color: white;
 }

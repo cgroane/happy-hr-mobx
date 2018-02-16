@@ -90,18 +90,39 @@ export function initMap (mapDiv, userLocation) {
           });
             mapDiv.style.right = "0vw";
             mapDiv.style.top = "0vh";
-            mapDiv.style.height = '80vh';
-            mapDiv.style.window = '80vw';
+            // mapDiv.style.height = '80vh';
+            // mapDiv.style.window = '80vw';
     
     }
     export function setMarkers (mapDiv, array) {
        return array.forEach((cur, ind) => {
             var self = this;
-            console.log(cur)
+            // console.log(cur)
             var marker = new google.maps.Marker({
                 map: mapDiv,
                 position: {lat:cur.location.lat, lng:cur.location.lng},
             })
            
+        })
+    }
+    export function updateDeals(arr) {
+        return arr.map((cur, ind) => {
+            var self = this;
+            var service = new google.maps.DistanceMatrixService();
+                service.getDistanceMatrix(
+                    {
+                        origins: [self.props.userLocation],
+                        destinations: [cur.location],
+                        unitSystem: google.maps.UnitSystem.IMPERIAL,
+                        travelMode: 'DRIVING'
+                    }, (response, status) => {
+                        if (status == 'OK') {
+                            // console.log(response)
+                            cur.distance = response.rows[0].elements[0].distance.text;
+                        }
+                    }
+                )
+                // console.log(cur)
+                return cur;
         })
     }
