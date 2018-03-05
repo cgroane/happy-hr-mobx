@@ -36,7 +36,11 @@ class ResultsView extends Component {
         let daysOfWeek = ["Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday", "Sunday"]
         let now = new Date();
         now = now.getDay();
-        now = daysOfWeek[now-1]
+        if (now == 0) {
+            now = daysOfWeek[6]
+        } else {
+            now = daysOfWeek[now-1]
+        }
         this.setState({
             day:now.toString()
         })
