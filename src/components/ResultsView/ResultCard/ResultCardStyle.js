@@ -28,9 +28,9 @@ export default {
     `,
     restaurantDetails: css`
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         border-bottom 1px solid #365DD6;
         & span {
             font-size: 0.7rem;

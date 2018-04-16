@@ -28,6 +28,10 @@ export default {
         width: 100vw;
         height: 100%;
         z-index: 1;
+        @media(max-width: 768px){
+            width: 0vw;
+            display: none
+        }
     `,
 
     dealList: css`
@@ -39,6 +43,9 @@ export default {
         height: 90%;
         overflow-y: scroll;
         z-index: 2;
+        @media(max-width: 768px) {
+            width: 100vw;
+        }
     `,
     dealCard: css`
         width: 90%;
