@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 import axios from 'axios';
-import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
+import {addDeal, getDeals} from '../../firebase/getFBDeals';
 import {sortDeals, getLocations, setDistance} from './../../ducks/reducer';
 import appStyle from './../styles/appStyle';
 import AddNewStyle from './AddNewStyle';
@@ -54,14 +54,8 @@ class AddNew extends Component {
             })
         }
     }
-    handleSelect = (address) => {
-        geocodeByAddress(address)
-            .then(results => getLatLng(results[0]))
-            .then(latLng => console.log('Success', latLng))
-            .catch(error => console.error('Error', error))
-    }
+    
     handleRestaurant = () => {
-        // console.log(google.maps.places)
         var autocomplete = new google.maps.places.Autocomplete(this.restaurant)
         var that = this
         autocomplete.addListener('place_changed', function() {
@@ -71,9 +65,7 @@ class AddNew extends Component {
             }
             // place.split(',')
             var address = place.formatted_address.split(',')
-            console.log(address)
-            console.log(address[2].split(' '));
-            console.log(address[2][0])
+            
             address[2] = address[2].split(' ')
             that.assignValue(that.city, address[1])
             that.assignValue(that.state1, address[2][1])
@@ -104,7 +96,7 @@ class AddNew extends Component {
             days: this.state.newDays,
             restaurant: {
                 name: this.state.name,
-                addressOne: this.state.addressOne,
+                address: this.state.address,
                 city: this.state.city,
                 state: this.state.state,
                 zip: this.state.zip
@@ -119,8 +111,8 @@ class AddNew extends Component {
                 checkFields = true;
             }   
         } 
-         if(checkFields ){
-                return axios.post('/api/deals', deal).then(() => {
+         if(checkFields){
+                return addDeal(deal).then(() => {
                     this.props.history.push('/')
                 return this.props.getLocations()
             })
@@ -137,7 +129,7 @@ class AddNew extends Component {
             <form id="newDeal" className={`${AddNewStyle.formContainer}`} >
                             
                 <input type="text" className={`${AddNewStyle.formText}`} ref={(ref) => this.restaurant = ref} name="name" onChange={this.handleRestaurant} placeholder="Name of bar or restaurant..." />Restaurant
-                <input type="text" className={`${AddNewStyle.formText}`} ref={(ref) => this.address = ref} name="addressOne" onChange={this.handleChange} placeholder="Street address..." />Address
+                <input type="text" className={`${AddNewStyle.formText}`} ref={(ref) => this.address = ref} name="address" onChange={this.handleChange} placeholder="Street address..." />Address
                 <input type="text" className={`${AddNewStyle.formText}`} ref={(ref) => this.city = ref} name="city" onChange={this.handleChange} placeholder="City" />City
                 <input type="text" className={`${AddNewStyle.formText}`} ref={(ref) => this.state1 = ref} name="state" onChange={this.handleChange} placeholder="ex. TX" />State
                 <input type="text" className={`${AddNewStyle.formText}`} ref={(ref) => this.zip = ref} name="zip" onChange={this.handleChange} placeholder="5 numbers" />Zip Code

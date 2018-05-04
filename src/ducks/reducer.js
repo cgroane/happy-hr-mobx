@@ -9,21 +9,22 @@ const FILTER_DEALS = "FILTER_DEALS"
 const SORT_DEALS = "SORT_DEALS";
 const GET_DAY = "GET_DAY";
 const SORT_DEALS_DECREASING = "SORT_DEALS_DECREASING";
+const SET_STATIC = "SET_STATIC"
 
 const initialState = {
     userLocation: {},
-    deals: [],
+    // deals: [],
     staticDeals: [],
 }
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case GET_DEALS:
-            return Object.assign({}, state, {deals: action.payload});
-        case GET_LOCATIONS + "_PENDING":
-            return Object.assign({}, state, {isLoading: true})
-        case GET_LOCATIONS + "_FULFILLED":
-            return Object.assign({}, state, {deals: action.payload, staticDeals: action.payload ,isLoading: false})
+        // case GET_DEALS:
+        //     return Object.assign({}, state, {deals: action.payload, staticDeals: action.payload});
+        // case GET_LOCATIONS + "_PENDING":
+        //     return Object.assign({}, state, {isLoading: true})
+        // case GET_LOCATIONS + "_FULFILLED":
+        //     return Object.assign({}, state, {deals: action.payload, staticDeals: action.payload ,isLoading: false})
         case GET_USER_LOCATION:
             return Object.assign({}, state, {userLocation: action.payload})
         case FILTER_DEALS: 
@@ -42,19 +43,24 @@ export default function(state = initialState, action) {
                 newArr.sort((a, b) => a.distance.split(' ')[0]*1 - b.distance.split(' ')[0]*1)
                 return Object.assign({}, state, {deals: newArr})
         }
-        case GET_DAY:
-            return Object.assign({}, state, {day: action.payload})
-        case SORT_DEALS_DECREASING:
-            {
-                var newArr = [...action.payload];
-                newArr.sort((a, b) => a.distance.split(' ')[0]*1 - b.distance.split(' ')[0]*1).reverse()
-                return Object.assign({}, state, {deals: newArr})
-            }
+        case SET_DISTANCE: 
+            return Object.assign({}, state, {
+                deals: action.payload,
+                staticDeals: action.payload
+            })
+        // case GET_DAY:
+        //     return Object.assign({}, state, {day: action.payload})
+        // case SORT_DEALS_DECREASING:
+        //     {
+        //         var newArr = [...action.payload];
+        //         newArr.sort((a, b) => a.distance.split(' ')[0]*1 - b.distance.split(' ')[0]*1).reverse()
+        //         return Object.assign({}, state, {deals: newArr})
+        //     }
         default:
             return state;
     }
 }
-export function getDeals(arr) {
+export function setDeals(arr) {
     return {
         type: GET_DEALS,
         payload: arr
@@ -106,6 +112,12 @@ export function getDayOfWeek(day) {
 export function reverseSort(array) {
     return {
         type: SORT_DEALS_DECREASING,
+        payload: array
+    }
+}
+export function setStatic(array) {
+    return{
+        type: SET_STATIC,
         payload: array
     }
 }

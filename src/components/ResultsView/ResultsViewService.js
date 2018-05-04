@@ -100,7 +100,7 @@ export function initMap (mapDiv, userLocation) {
             // console.log(cur)
             var marker = new google.maps.Marker({
                 map: mapDiv,
-                position: {lat:cur.location.lat, lng:cur.location.lng},
+                position: {lat:cur.lat, lng:cur.lng},
             })
            
         })
