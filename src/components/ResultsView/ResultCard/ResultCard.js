@@ -25,7 +25,7 @@ class ResultCard extends Component {
                     <h1>{item.title}</h1>
                     <div className={`${ResultCardStyles.restaurantDetails}`} >
                         <h2>{item.restaurant.name}</h2>
-                        <span>{item.restaurant.addressOne}, {item.restaurant.city}, {item.restaurant.state}, {item.restaurant.zip}</span>
+                        <span>{item.restaurant.address}, {item.restaurant.city}, {item.restaurant.state}, {item.restaurant.zip}</span>
                     </div>
                     <span>{item.distance}</span>
                 </div>

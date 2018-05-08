@@ -32,11 +32,11 @@ class ResultsView extends Component {
     }
     componentDidMount() {
     const {firestore} = this.context.store;
-        if ("geolocation" in navigator) {
+        // if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
                 this.props.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})
             })
-        }
+        // }
         var uluru = {
             lat: 32.813085, 
             lng: -96.762331
@@ -76,7 +76,7 @@ class ResultsView extends Component {
             setMarkers.call(this, this.map, this.props.deals);
             
         }
-        if (this.props.userLocation != prevProps.userLocation) {
+        if (this.props.userLocation) {
             let deals = new Promise ((resolve, reject) => {
                 resolve(updateDeals.call(this, this.props.deals))
             })
