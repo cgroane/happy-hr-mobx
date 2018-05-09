@@ -67,6 +67,7 @@ export default {
                 margin: 3px;
             }
         }
+        overflow-x: scroll
     `,
     header: css`
         position: fixed;
