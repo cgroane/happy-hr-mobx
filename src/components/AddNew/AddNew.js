@@ -155,28 +155,6 @@ class AddNew extends Component {
             alert(`If you leave any fields blank, the goecoder won't work properly and you might break my server. Fill them all out, not too hard. Also there's no data validation on the backend. So if you enter a bogus restaurant name and address and city, you also might break my server. Thank you for cooperating!`)
         }
         
-        
-        // function getRandomInt(min, max) {
-        //     min = Math.ceil(min);
-        //     max = Math.floor(max);
-        //     return Math.floor(Math.random() * (max - min)) + min;
-        //   }
-        // let id = getRandomInt(0, 100)
-        // event.preventDefault()
-        // let deal = {
-        //     id: id,
-        //     title: this.state.title,
-        //     details: this.state.details,
-        //     days: this.state.newDays,
-        //     restaurant: {
-        //         name: this.state.name,
-        //         address: this.state.address,
-        //         city: this.state.city,
-        //         state: this.state.state,
-        //         zip: this.state.zip
-        //     }
-        // } 
-        
     }
     
     render() {
