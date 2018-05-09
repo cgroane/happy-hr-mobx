@@ -52,7 +52,6 @@ class ResultsView extends Component {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
                 console.log(position)
-                this.props.setDistance(this.props.deals, {lat: position.coords.latitude, lng: position.coords.longitude})
                 this.props.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})
             })
         }
@@ -81,7 +80,6 @@ class ResultsView extends Component {
                 cur.data()
             )   
         })
-
     }
     
     componentWillUnmount() {
@@ -98,8 +96,8 @@ class ResultsView extends Component {
             setMarkers.call(this, this.map, this.props.deals);
             
         }
-        if (this.props.userLocation != 'undefined') {
-            
+        if (this.props.userLocation != undefined) {
+            // this.props.setDistance(this.props.deals, this.props.userLocation)
             // let deals = updateDeals.call(this, this.props.deals)
             // this.props.setStatic(deals)
             // let deals = new Promise ((resolve, reject) => {
@@ -122,16 +120,16 @@ class ResultsView extends Component {
         return (
             <div className={`${resultStyle.resultsContainer}`} >
                 <div className={`${resultStyle.header}`} >
-
-                    <DropdownMenu 
+                    Click on a marker to scroll to that location. Zoom out to see other locations.
+                    {/* <DropdownMenu 
                         trigger="Sort by distance"
                         triggerType="button"
                         shouldFlip={true}
                         position="right middle"
                         shouldFitContainer={true}
                         onOpenchange={e => console.log('dropdown opened', e)}
-                    >
-                        <DropdownItemGroup>
+                    > */}
+                        {/* <DropdownItemGroup>
                             <DropdownItem value="shortestToLongest" onClick={() => this.props.sortDeals(this.props.deals)} >Shortest to Longest</DropdownItem>
                             <DropdownItem value="longestToShortest" onClick={() => this.props.reverseSort(this.props.deals)} >Longest to Shortest</DropdownItem>
                         </DropdownItemGroup>
@@ -148,7 +146,7 @@ class ResultsView extends Component {
                             <DropdownItem onClick={() => this.props.filterDeals(this.props.staticDeals)} >Active</DropdownItem>
                             <DropdownItem onClick={() => this.props.getDeals(this.props.staticDeals)} >Don't care</DropdownItem>
                         </DropdownItemGroup>
-                    </DropdownMenu>
+                    </DropdownMenu> */}
                 </div>
 
                 <ResultsList deals={this.props.deals} />
@@ -157,21 +155,24 @@ class ResultsView extends Component {
                     <div id="gmap" ref={ref => (this.gmap = ref)} />
                 </div>
                 <div className={`${appStyle.footer}`} >
-                    <Link to="/add_new" ><span>Add New Deal (cc: @Franklin Roosevelt)</span></Link>
+                    <Link to="/add_new" ><span>Add New Special</span></Link>
                 </div>
             </div>
         )
     }
 }
 const mapStateToProps = (state, props) => {
-    // console.log(state)
+    console.log(state)
     // console.log(props)
     return {
-        deals: state.firestore.ordered.deals
+        deals: state.firestore.ordered.deals,
+        userLocation: state.main.userLocation
     }
 }
 ResultsView.defaultProps = {
-    deals: []
+    deals: [],
+    userLocation: {
+    }
 }
 export default compose (
     firestoreConnect([{collection:'deals'}]), 

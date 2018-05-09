@@ -29,7 +29,8 @@ class AddNew extends Component {
             address: '',
             city: '',
             state: '',
-            zip: ''
+            zip: '',
+            placeID: '',
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleDaySelect = this.handleDaySelect.bind(this);
@@ -73,13 +74,16 @@ class AddNew extends Component {
             }
             // place.split(',')
             var address = place.formatted_address.split(',')
-            
+            console.log(place)
             address[2] = address[2].split(' ')
             that.assignValue(that.city, address[1])
             that.assignValue(that.state1, address[2][1])
             that.assignValue(that.address, address[0])
             that.assignValue(that.restaurant, place.name)
             that.assignValue(that.zip, address[2][2])
+            that.setState({
+                placeID: place.place_id
+            })
         })
         console.log(this.city)
         
@@ -106,6 +110,7 @@ class AddNew extends Component {
             title: this.state.title,
             details: this.state.details,
             days: this.state.newDays,
+            placeID: this.state.placeID
         };
 
         for (let prop in deal) {
@@ -135,7 +140,9 @@ class AddNew extends Component {
                         title: deal.title,
                         days: deal.days,
                         lat: obj.lat(),
-                        lng: obj.lng()
+                        lng: obj.lng(),
+                        placeID: deal.placeID,
+                        details: deal.details
                     }).then(() => {
                         alert('Success! Go back to home page')
                     })
@@ -173,7 +180,7 @@ class AddNew extends Component {
     }
     
     render() {
-        const daysOptions = functions.daysBoxes(["Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday", "Sunday"], this.handleDaySelect)
+        const daysOptions = functions.daysBoxes(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], this.handleDaySelect)
         
         return (
            <div>

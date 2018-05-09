@@ -17,6 +17,9 @@ const ResultsList = (props) => {
                             distance={cur.distance} 
                             days={cur.days} 
                             details={cur.details}
+                            lat={cur.lat}
+                            lng={cur.lng}
+                            placeID={cur.placeID}
                         />
                     </Element>
                 )

@@ -28,6 +28,8 @@ class ResultCard extends Component {
     
     render() {
         let item = this.props;
+        console.log(item.placeID
+        )
         return (
             <Element name={item.id} >
                 <div key={item.key} value={item.id} className={`${ResultCardStyles.dealCard}`} >
@@ -35,7 +37,7 @@ class ResultCard extends Component {
                         <h1>{item.title}</h1>
                         <div className={`${ResultCardStyles.restaurantDetails}`} >
                             <h2>{item.restaurant.name}</h2>
-                            <span>{item.restaurant.address}, {item.restaurant.city}, {item.restaurant.state}, {item.restaurant.zip}</span>
+                            <a href={`https://www.google.com/maps/search/?api=1&query=${item.lat},${item.lng}&query=${item.placeID}`} >{item.restaurant.address}, {item.restaurant.city}, {item.restaurant.state}, {item.restaurant.zip}</a>
                         </div>
                         <span>{item.distance}</span>
                     </div>
