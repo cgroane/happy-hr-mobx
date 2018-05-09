@@ -2,6 +2,7 @@ import React from 'react';
 import resultStyle from './../styles/resultStyle';
 import AddNewStyle from './../AddNew/AddNewStyle';
 import ResultCard from './../ResultsView/ResultCard/ResultCard';
+import Element from 'react-scroll';
 
 export default {
     // utilities and constants
@@ -15,7 +16,9 @@ export default {
     },
     mapToCard: function (arr) {
         return arr.map((cur, ind, array) => {
-            return <ResultCard 
+            return (
+                <Element name={cur.id} key={ind} >
+                    <ResultCard 
                         key={ind} 
                         value={cur.id} 
                         title={cur.title} 
@@ -24,6 +27,8 @@ export default {
                         days={cur.days} 
                         details={cur.details} 
                     />
+                </Element>
+            )
         })
     },
     daysBoxes: function(arr, onChangeFunc) {

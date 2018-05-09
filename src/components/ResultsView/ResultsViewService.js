@@ -1,5 +1,5 @@
 // import * as Scroll from 'react-scroll';
-// import {Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll';
+import {Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll';
 const google = window.google;
 
 export function initMap (mapDiv, userLocation) {
@@ -95,34 +95,67 @@ export function initMap (mapDiv, userLocation) {
     
     }
     export function setMarkers (mapDiv, array) {
+        let scrollevents = scroller
        return array.forEach((cur, ind) => {
             var self = this;
             // console.log(cur)
             var marker = new google.maps.Marker({
                 map: mapDiv,
                 position: {lat:cur.lat, lng:cur.lng},
+                id: cur.id
             })
-           
+            let infowindow = new google.maps.InfoWindow;
+            let infowindowContent = `
+                <div> ${cur.restaurant.name} for ${cur.title} </div>
+            `
+            infowindow.setContent(infowindowContent);
+            marker.addListener('mouseover', function() {
+                infowindow.open(self.map, marker)
+            })
+            marker.addListener('mouseout', function() {
+                infowindow.close(self.map, marker)
+            })
+            marker.addListener('click', function() {
+                self.map.setZoom(15)
+                self.map.setCenter({
+                    lat: cur.lat,
+                    lng: cur.lng
+                })
+                scrollevents.scrollTo(marker.id , {
+                    duration:800,
+                    delay: 0,
+                    smooth: true,
+                    containerId: 'deal-list',
+                    offset: -100
+                })
+            })
         })
     }
-    export function updateDeals(arr) {
-        return arr.map((cur, ind) => {
-            var self = this;
-            var service = new google.maps.DistanceMatrixService();
-                service.getDistanceMatrix(
-                    {
-                        origins: [self.props.userLocation],
-                        destinations: [cur.location],
-                        unitSystem: google.maps.UnitSystem.IMPERIAL,
-                        travelMode: 'DRIVING'
-                    }, (response, status) => {
-                        if (status == 'OK') {
-                            // console.log(response)
-                            cur.distance = response.rows[0].elements[0].distance.text;
+    export function updateDeals(arr, userLoc) {
+        console.log(userLoc)
+        let newDeals = arr.map((cur, ind) => {
+            return new Promise (function(resolve, reject) {
+                var service = new google.maps.DistanceMatrixService();
+                    service.getDistanceMatrix(
+                        {
+                            origins: [{lat: userLoc.latitude, lng: userLoc.longitude}],
+                            destinations: [cur.location],
+                            unitSystem: google.maps.UnitSystem.IMPERIAL,
+                            travelMode: 'DRIVING'
+                        }, (response, status) => {
+                            if (status == 'OK') {
+                                // console.log(response)
+                                cur.distance = response.rows[0].elements[0].distance.text;
+                            }
                         }
-                    }
-                )
-                // console.log(cur)
+                    ) 
+            }).then((obj) => {
+                cur.distance = obj
+                console.log(cur)
+                return cur;
+            })
+                console.log(cur)
                 return cur;
         })
+        Promise.all(newDeals).then(results => results)
     }

@@ -5,6 +5,15 @@ import {compose} from 'redux'
 import PropTypes from 'prop-types'
 import {css} from 'emotion';
 import {Link, withRouter} from 'react-router-dom';
+import {
+    // Link,
+    DirectLink,
+    Element,
+    Events,
+    animateScroll as scroll,
+    scrollSpy,
+    scroller
+  } from "react-scroll";
 import moment from 'moment';
 import {sortDeals, getLocations, setDistance, filterDeals, getDayOfWeek, getUserLocation, setDeals, reverseSort, setStatic} from './../../ducks/reducer';
 import {viewDeals} from '../../firebase/getFBDeals';
@@ -30,14 +39,24 @@ class ResultsView extends Component {
             deals: []
         }
     }
+    
     componentDidMount() {
-    const {firestore} = this.context.store;
-        // if ("geolocation" in navigator) {
+        Events.scrollEvent.register('begin', function () {
+            // console.log('begin', arguments)
+          })
+          Events.scrollEvent.register('end', function () {
+            // console.log('end', arguments)
+          })
+          scrollSpy.update();
+            const {firestore} = this.context.store;
+        if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
+                console.log(position)
+                this.props.setDistance(this.props.deals, {lat: position.coords.latitude, lng: position.coords.longitude})
                 this.props.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})
             })
-        // }
-        var uluru = {
+        }
+        let uluru = {
             lat: 32.813085, 
             lng: -96.762331
         }
@@ -65,21 +84,27 @@ class ResultsView extends Component {
 
     }
     
+    componentWillUnmount() {
+        Events.scrollEvent.remove("begin");
+        Events.scrollEvent.remove("end");
+      }
    
     componentDidUpdate(prevProps, prevState) {
         if(this.props.deals.length !== prevProps.deals.length) {
             // get distance
-            let deals = updateDeals.call(this, this.props.deals)
-            this.props.setStatic(deals)
+            
             // set distance in reducer
             // this.props.setDistance(deals)
             setMarkers.call(this, this.map, this.props.deals);
             
         }
-        if (this.props.userLocation) {
-            let deals = new Promise ((resolve, reject) => {
-                resolve(updateDeals.call(this, this.props.deals))
-            })
+        if (this.props.userLocation != 'undefined') {
+            
+            // let deals = updateDeals.call(this, this.props.deals)
+            // this.props.setStatic(deals)
+            // let deals = new Promise ((resolve, reject) => {
+            //     resolve(updateDeals.call(this, this.props.deals))
+            // })
             // once you get userlocation and deals,
             // this.props.getLocations().then((response) => this.props.setDistance(response.data))
             // this.props.setDeals(viewDeals())
