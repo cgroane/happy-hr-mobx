@@ -31,6 +31,7 @@ class AddNew extends Component {
             state: '',
             zip: '',
             placeID: '',
+            photos: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleDaySelect = this.handleDaySelect.bind(this);
@@ -82,7 +83,8 @@ class AddNew extends Component {
             that.assignValue(that.restaurant, place.name)
             that.assignValue(that.zip, address[2][2])
             that.setState({
-                placeID: place.place_id
+                placeID: place.place_id,
+                photos: place.photos
             })
         })
         console.log(this.city)
@@ -142,7 +144,8 @@ class AddNew extends Component {
                         lat: obj.lat(),
                         lng: obj.lng(),
                         placeID: deal.placeID,
-                        details: deal.details
+                        details: deal.details,
+                        photos: deal.photos,
                     }).then(() => {
                         alert('Success! Go back to home page')
                     })
