@@ -2,6 +2,8 @@
 // show, hide with state
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {firestoreConnect} from 'react-redux-firebase';
 import {Link, withRouter} from 'react-router-dom';
 import axios from 'axios';
 import {addDeal, getDeals} from '../../firebase/getFBDeals';
@@ -14,6 +16,9 @@ import './AddNew.css';
 const google = window.google;
 
 class AddNew extends Component {
+    static contextTypes = {
+        store: PropTypes.object.isRequired
+    }
     constructor(props) {
         super(props)
         this.state = {
@@ -24,7 +29,8 @@ class AddNew extends Component {
             address: '',
             city: '',
             state: '',
-            zip: ''
+            zip: '',
+            placeID: '',
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleDaySelect = this.handleDaySelect.bind(this);
@@ -55,7 +61,10 @@ class AddNew extends Component {
         }
     }
     
-    handleRestaurant = () => {
+    handleRestaurant = (event) => {
+        this.setState({
+            name: event.target.value
+        })
         var autocomplete = new google.maps.places.Autocomplete(this.restaurant)
         var that = this
         autocomplete.addListener('place_changed', function() {
@@ -65,13 +74,16 @@ class AddNew extends Component {
             }
             // place.split(',')
             var address = place.formatted_address.split(',')
-            
+            console.log(place)
             address[2] = address[2].split(' ')
             that.assignValue(that.city, address[1])
             that.assignValue(that.state1, address[2][1])
             that.assignValue(that.address, address[0])
             that.assignValue(that.restaurant, place.name)
             that.assignValue(that.zip, address[2][2])
+            that.setState({
+                placeID: place.place_id
+            })
         })
         console.log(this.city)
         
@@ -82,26 +94,25 @@ class AddNew extends Component {
         this.setState({[target.name]: text})
     }
     handleSubmit(event) {
-        function getRandomInt(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min;
-          }
-        let id = getRandomInt(0, 100)
-        event.preventDefault()
+        // firestore
+        event.preventDefault();
+        const {firestore} = this.context.store;
+        
         let deal = {
-            id: id,
-            title: this.state.title,
-            details: this.state.details,
-            days: this.state.newDays,
             restaurant: {
                 name: this.state.name,
                 address: this.state.address,
                 city: this.state.city,
                 state: this.state.state,
+                city: this.state.city,
                 zip: this.state.zip
-            }
-        } 
+            },
+            title: this.state.title,
+            details: this.state.details,
+            days: this.state.newDays,
+            placeID: this.state.placeID
+        };
+
         for (let prop in deal) {
             var checkFields;
             if (!deal[prop]) {
@@ -112,17 +123,42 @@ class AddNew extends Component {
             }   
         } 
          if(checkFields){
-                return addDeal(deal).then(() => {
-                    this.props.history.push('/')
-                return this.props.getLocations()
-            })
+            //     return addDeal(deal).then(() => {
+            //         this.props.history.push('/')
+            //     return this.props.getLocations()
+            // })
+            let address = `${deal.restaurant.address}, ${deal.restaurant.city}, ${deal.restaurant.state}, ${deal.restaurant.zip}`
+        var geocoder = new google.maps.Geocoder;
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status=== 'OK' ) {
+                let that = this;
+                let obj = results[0].geometry.location
+                let newDealRef = firestore
+                    .add({collection: 'deals'}, {
+                        
+                        restaurant: deal.restaurant,
+                        title: deal.title,
+                        days: deal.days,
+                        lat: obj.lat(),
+                        lng: obj.lng(),
+                        placeID: deal.placeID,
+                        details: deal.details
+                    }).then(() => {
+                        alert('Success! Go back to home page')
+                    })
+                console.log('lat lng worked')
+            } else {
+                alert('invalid address')
+            }
+        })
         } else {
             alert(`If you leave any fields blank, the goecoder won't work properly and you might break my server. Fill them all out, not too hard. Also there's no data validation on the backend. So if you enter a bogus restaurant name and address and city, you also might break my server. Thank you for cooperating!`)
         }
+        
     }
     
     render() {
-        const daysOptions = functions.daysBoxes(["Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday", "Sunday"], this.handleDaySelect)
+        const daysOptions = functions.daysBoxes(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], this.handleDaySelect)
         
         return (
            <div>

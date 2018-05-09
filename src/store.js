@@ -37,7 +37,8 @@ const reducers = combineReducers({
   main: reducer
 })
 
-const initialState = {}
+const initialState = {
+}
 const store = createStoreWithFirebase(reducers, initialState)
 
 // export default createStore(

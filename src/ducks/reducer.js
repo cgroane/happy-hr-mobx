@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {updateDeals} from '../components/ResultsView/ResultsViewService';
 
 const GET_DEALS = 'GET_DEALS';
 const GET_LOCATIONS = 'GET_LOCATIONS';
@@ -43,10 +44,13 @@ export default function(state = initialState, action) {
                 newArr.sort((a, b) => a.distance.split(' ')[0]*1 - b.distance.split(' ')[0]*1)
                 return Object.assign({}, state, {deals: newArr})
         }
+        // case SET_DISTANCE + "_PENDING":
+        //     return Object.assign({},state, {isLoading: true})
         case SET_DISTANCE: 
             return Object.assign({}, state, {
                 deals: action.payload,
-                staticDeals: action.payload
+                staticDeals: action.payload,
+                isLoading: false
             })
         // case GET_DAY:
         //     return Object.assign({}, state, {day: action.payload})
@@ -88,7 +92,7 @@ export function getUserLocation(location) {
 export function setDistance(array) {
     return {
         type: SET_DISTANCE,
-        payload: array
+        payload: updateDeals(array)
     }
 }
 export function selectDeal(obj) {
