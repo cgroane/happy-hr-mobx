@@ -138,7 +138,6 @@ class AddNew extends Component {
                 let obj = results[0].geometry.location
                 let newDealRef = firestore
                     .add({collection: 'deals'}, {
-                        
                         restaurant: deal.restaurant,
                         title: deal.title,
                         days: deal.days,
@@ -149,6 +148,7 @@ class AddNew extends Component {
                         photos: deal.photos,
                     }).then(() => {
                         alert('Success! Go back to home page')
+                        this.props.history.push('/')
                     })
                 console.log('lat lng worked')
             } else {
