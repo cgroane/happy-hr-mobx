@@ -26,6 +26,7 @@ import appStyle from './../styles/appStyle';
 import resultsFunctions from './../utility/functions';
 import ResultCard from './ResultCard/ResultCard';
 import ResultsList from './ResultsList/ResultsList';
+import InfoBar from '../InfoBar/InfoBar';
 const google = window.google;
 
 class ResultsView extends Component {
@@ -36,11 +37,24 @@ class ResultsView extends Component {
         super(props);
         this.state = {
             day: "",
-            deals: []
+            deals: [],
+            mapOrList: true,
+            height: 0,
+            width: 0,
+            selected: {
+
+            }
         }
     }
     
     componentDidMount() {
+        this.updateWindowDimensions()
+        window.addEventListener('resize', this.updateWindowDimensions)
+        if (this.state.width < 768) {
+            this.setState({
+                mapOrList: false
+            })
+        }
         Events.scrollEvent.register('begin', function () {
             // console.log('begin', arguments)
           })
@@ -83,6 +97,7 @@ class ResultsView extends Component {
     }
     
     componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions)
         Events.scrollEvent.remove("begin");
         Events.scrollEvent.remove("end");
       }
@@ -111,16 +126,61 @@ class ResultsView extends Component {
             // this.props.setDistance(newDeals)
         }
     }
+    updateWindowDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+      }
     render() {
-        // creates card with props
+        //conditionals for mobile optimization
+        // there should be an option for map view and list view. right now, map is hidden
+        // if user is on a mobile device, maptoggle button should exist
+        // if maporlist is true - map view and infobar is active, list view is off,
+        // if maporlist if false - map is off, list only
+        // one variable to read state - it will be truthy or falsy
+        //truthy will keep map on the screen,
+        // falsy will be list only
+        // if screen is greater than 800, there is no option
+        // less than 800 one or the other
+        // map only hidden if width is less than 800 and maporlist is falsy
 
-        // const dealsList = this.props.deals.length ? resultsFunctions.mapToCard(this.props.deals): null
-        // console.log(this.props.deals)
-
+        let hideMap
+        if (this.state.width < 768 && !this.state.mapOrList ) {
+            hideMap = {
+                display: 'none'
+            }
+        } else {
+            hideMap = {
+                display:'block',
+                position: 'absolute',
+                right: '0',
+                left: '0',
+                bottom:'20px',
+                top: '0',
+                width: '100vw',
+                height: '100vh',
+            }
+        }
+        
+        const mapToggle = (
+            <button className="map-toggle" onClick={() => this.setState({
+                mapOrList: !this.state.mapOrList
+            })} >
+                {
+                    this.state.mapOrList ? 'List View': 'Map View'
+                }
+            </button>
+        )
+        let infoBar;
+        if (this.state.mapOrList && this.state.width < 768) {
+            infoBar = 
+            <InfoBar selected={this.state.selected} />
+        } else {
+            infoBar = null;
+        }
         return (
             <div className={`${resultStyle.resultsContainer}`} >
                 <div className={`${resultStyle.header}`} >
                     Click on a marker to scroll to that location. Zoom out to see other locations.
+                    <div>{mapToggle}</div>
                     {/* <DropdownMenu 
                         trigger="Sort by distance"
                         triggerType="button"
@@ -148,12 +208,15 @@ class ResultsView extends Component {
                         </DropdownItemGroup>
                     </DropdownMenu> */}
                 </div>
+                {
 
-                <ResultsList deals={this.props.deals} />
+                }
+                <ResultsList deals={this.props.deals}  mapOrList={this.state.mapOrList}  dimensions={{height: this.state.height, width: this.state.width}} />
 
-                <div className={`${resultStyle.mapContainer}`} >
+                <div className={`${resultStyle.mapContainer}`} style={hideMap} >
                     <div id="gmap" ref={ref => (this.gmap = ref)} />
                 </div>
+                {infoBar}
                 <div className={`${appStyle.footer}`} >
                     <Link to="/add_new" ><span>Add New Special</span></Link>
                 </div>

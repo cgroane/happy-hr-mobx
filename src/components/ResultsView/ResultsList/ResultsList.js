@@ -4,8 +4,16 @@ import resultStyle from '../../styles/resultStyle';
 import {Element} from 'react-scroll';
 
 const ResultsList = (props) => {
+    let hideList;
+    if (props.mapOrList && props.dimensions.width < 768) {
+        hideList = {
+            display: 'none'
+        }
+    } else {
+        hideList = null
+    }
     return (
-        <div className={`${resultStyle.dealList}`}  id="deal-list" >{
+        <div className={`${resultStyle.dealList}`}  style={hideList} id="deal-list" >{
             props.deals.map((cur, ind, arr) => {
                 return (
                     <Element name={cur.id} key={ind} >

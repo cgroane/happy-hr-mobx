@@ -106,7 +106,7 @@ export function initMap (mapDiv, userLocation) {
             })
             let infowindow = new google.maps.InfoWindow;
             let infowindowContent = `
-                <div> ${cur.restaurant.name} for ${cur.title} </div>
+                <div> <a class="infowindow-link" href="https://www.google.com/maps/search/?api=1&query=${cur.restaurant.name.split(' ').join('+')}&query_place_id=${cur.placeID}" >${cur.restaurant.name} for ${cur.title} </a></div>
             `
             infowindow.setContent(infowindowContent);
             marker.addListener('mouseover', function() {
@@ -127,6 +127,10 @@ export function initMap (mapDiv, userLocation) {
                     smooth: true,
                     containerId: 'deal-list',
                     offset: -100
+                })
+                let selected = self.props.deals.find(x => x.id == marker.id)
+                self.setState({
+                    selected: selected
                 })
             })
         })

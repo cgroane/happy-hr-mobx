@@ -35,7 +35,7 @@ class ResultCard extends Component {
                         <h1>{item.title}</h1>
                         <div className={`${ResultCardStyles.restaurantDetails}`} >
                             <h2>{item.restaurant.name}</h2>
-                            <a href={`https://www.google.com/maps/search/?api=1&query=${item.restaurant.name.split(' ').join('+')}&query_place_id=${item.placeID}`} >{item.restaurant.address}, {item.restaurant.city}, {item.restaurant.state}, {item.restaurant.zip}</a>
+                            <a className="link-to-map" href={`https://www.google.com/maps/search/?api=1&query=${item.restaurant.name.split(' ').join('+')}&query_place_id=${item.placeID}`} >{item.restaurant.address}, {item.restaurant.city}, {item.restaurant.state}, {item.restaurant.zip}</a>
                         </div>
                         <span>{item.distance}</span>
                     </div>
