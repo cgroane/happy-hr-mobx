@@ -82,10 +82,24 @@ class AddNew extends Component {
             that.assignValue(that.address, address[0])
             that.assignValue(that.restaurant, place.name)
             that.assignValue(that.zip, address[2][2])
-            that.setState({
-                placeID: place.place_id,
-                photos: place.photos
-            })
+            if (place.photos) {
+                that.setState({
+                    placeID: place.place_id,
+                    photos: place.photos.map(cur =>{
+                        let newPhoto = {
+                            height: cur.height,
+                            htmlAttributions: cur.html_attributions,
+                            width: cur.width
+                        }
+                        return newPhoto
+                    })
+                })
+            } else {
+                that.setState({
+                    placeID: place.place_id
+                })
+            }
+            
         })
         console.log(this.city)
         
@@ -145,7 +159,7 @@ class AddNew extends Component {
                         lng: obj.lng(),
                         placeID: deal.placeID,
                         details: deal.details,
-                        photos: deal.photos,
+                        photos: deal.photos
                     }).then(() => {
                         alert('Success! Go back to home page')
                         this.props.history.push('/')
