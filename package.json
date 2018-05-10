@@ -2,6 +2,9 @@
   "name": "build-a-story",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "8.10.0"
+  },
   "dependencies": {
     "@atlaskit/button": "^6.4.1",
     "@atlaskit/dropdown-menu": "^3.11.9",
@@ -44,5 +47,5 @@
   "now": {
     "alias": "happy-deals"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001" 
 }
