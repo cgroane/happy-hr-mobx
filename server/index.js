@@ -7,7 +7,7 @@ app.use(bodyParser.json())
 app.use(cors())
 require('dotenv').config();
 
-// app.use(express.static(`${__dirname}/../build`));
+app.use(express.static(`${__dirname}/../build`));
 
 const dealsCtrl = require('./controllers/deals_controller');
 app.get('/api/deals', dealsCtrl.viewDeals);
@@ -20,7 +20,7 @@ app.listen(port, () => {
     console.log(`Listening on port: ${port}`)
 })
 
-// const path = require('path')
-// app.get('*', (req, res)=>{
-//   res.sendFile(path.join(__dirname, '../build/index.html'));
-// })
+const path = require('path')
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+})
