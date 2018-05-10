@@ -24,6 +24,7 @@ export default {
         align-items: center;
         justify-content: center;
         text-align: center;
+        flex-wrap: wrap;
     `,
     checks: css`
     display: block;
