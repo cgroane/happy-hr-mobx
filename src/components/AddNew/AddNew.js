@@ -112,7 +112,8 @@ class AddNew extends Component {
             title: this.state.title,
             details: this.state.details,
             days: this.state.newDays,
-            placeID: this.state.placeID
+            placeID: this.state.placeID,
+            photos: this.state.photos
         };
 
         for (let prop in deal) {
