@@ -152,7 +152,6 @@ class AddNew extends Component {
                 let obj = results[0].geometry.location
                 let newDealRef = firestore
                     .add({collection: 'deals'}, {
-                        
                         restaurant: deal.restaurant,
                         title: deal.title,
                         days: deal.days,
@@ -163,6 +162,7 @@ class AddNew extends Component {
                         photos: deal.photos
                     }).then(() => {
                         alert('Success! Go back to home page')
+                        this.props.history.push('/')
                     })
                 console.log('lat lng worked')
             } else {
@@ -179,7 +179,7 @@ class AddNew extends Component {
         const daysOptions = functions.daysBoxes(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], this.handleDaySelect)
         
         return (
-           <div>
+           <div className="addNew" >
             <form id="newDeal" className={`${AddNewStyle.formContainer}`} >
                             
                 <input type="text" className={`${AddNewStyle.formText}`} ref={(ref) => this.restaurant = ref} name="name" onChange={this.handleRestaurant} placeholder="Name of bar or restaurant..." />Restaurant
@@ -193,8 +193,8 @@ class AddNew extends Component {
                     {daysOptions}
                 </div>
 
-                <div>
-                    <button onClick={this.handleSubmit} >
+                <div style={{marginBottom: '30px'}} >
+                    <button  className="map-toggle"  onClick={this.handleSubmit}  style={{marginBottom: '60px'}} >
                         Post
                     </button>
                 </div>

@@ -66,7 +66,12 @@ export default {
             & li {
                 margin: 3px;
             }
+            & hover {
+                background: #365DD6;
+                color: white
+            }
         }
+        overflow-x: scroll
     `,
     header: css`
         position: fixed;
@@ -77,7 +82,7 @@ export default {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        justify-content: flex-start;
+        justify-content: space-around;
         align-items: stretch;
         align-content: stretch;
         padding: 15px;
