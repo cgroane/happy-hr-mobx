@@ -178,8 +178,8 @@ class AddNew extends Component {
                     {daysOptions}
                 </div>
 
-                <div>
-                    <button  className="map-toggle"  onClick={this.handleSubmit}  style={{marginBottom: '20px'}} >
+                <div style={{marginBottom: '30px'}} >
+                    <button  className="map-toggle"  onClick={this.handleSubmit}  style={{marginBottom: '60px'}} >
                         Post
                     </button>
                 </div>
