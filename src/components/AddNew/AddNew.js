@@ -162,7 +162,8 @@ class AddNew extends Component {
                         photos: deal.photos
                     }).then(() => {
                         alert('Success! Go back to home page')
-                        this.props.history.push('/')
+                        this.self.$r.history.push('/')
+                        console.log(this)
                     })
                 console.log('lat lng worked')
             } else {
