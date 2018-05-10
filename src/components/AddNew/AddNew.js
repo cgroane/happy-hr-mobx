@@ -31,6 +31,7 @@ class AddNew extends Component {
             state: '',
             zip: '',
             placeID: '',
+            photos: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleDaySelect = this.handleDaySelect.bind(this);
@@ -81,9 +82,24 @@ class AddNew extends Component {
             that.assignValue(that.address, address[0])
             that.assignValue(that.restaurant, place.name)
             that.assignValue(that.zip, address[2][2])
-            that.setState({
-                placeID: place.place_id
-            })
+            if (place.photos) {
+                that.setState({
+                    placeID: place.place_id,
+                    photos: place.photos.map(cur =>{
+                        let newPhoto = {
+                            height: cur.height,
+                            htmlAttributions: cur.html_attributions,
+                            width: cur.width
+                        }
+                        return newPhoto
+                    })
+                })
+            } else {
+                that.setState({
+                    placeID: place.place_id
+                })
+            }
+            
         })
         console.log(this.city)
         
@@ -110,7 +126,8 @@ class AddNew extends Component {
             title: this.state.title,
             details: this.state.details,
             days: this.state.newDays,
-            placeID: this.state.placeID
+            placeID: this.state.placeID,
+            photos: this.state.photos
         };
 
         for (let prop in deal) {
@@ -142,7 +159,8 @@ class AddNew extends Component {
                         lat: obj.lat(),
                         lng: obj.lng(),
                         placeID: deal.placeID,
-                        details: deal.details
+                        details: deal.details,
+                        photos: deal.photos
                     }).then(() => {
                         alert('Success! Go back to home page')
                     })
