@@ -101,15 +101,11 @@ body {
   }
 
   @media screen and (max-width: 768px) {
-    #gmap {
-      /* display: none; */
-    }
+   
     .dealList {
       width: 100%;
     }
-    .infobar {
-      
-    }
+   
     .map-toggle {
       display: flex;
       border-radius: 30px;
