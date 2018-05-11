@@ -10,6 +10,7 @@ export default {
         flex-direction: column;
         font-family: 'Roboto', sans-serif;
         box-sizing: border-box;
+        background: ghostwhite;
     `,
     appContainer: css`
         position: absolute;

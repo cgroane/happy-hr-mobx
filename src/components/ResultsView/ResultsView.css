@@ -102,8 +102,12 @@ body {
 
   @media screen and (max-width: 768px) {
    
-    .dealList {
+    #deal-list {
       width: 100%;
+      background: ghostwhite;
+    }
+    .dealCard {
+      margin-bottom: 20px;
     }
    
     .map-toggle {
