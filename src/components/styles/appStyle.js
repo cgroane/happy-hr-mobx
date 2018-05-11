@@ -9,6 +9,7 @@ export default {
         display: flex;
         flex-direction: column;
         font-family: 'Roboto', sans-serif;
+        box-sizing: border-box;
     `,
     appContainer: css`
         position: absolute;
@@ -28,6 +29,7 @@ export default {
         left: 0;
         height: 10vh;
         width: 100vw;
+        box-sizing: border-box;
     `,
     footer: css`
         position: fixed;

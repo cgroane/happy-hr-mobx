@@ -130,18 +130,6 @@ class ResultsView extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
       }
     render() {
-        //conditionals for mobile optimization
-        // there should be an option for map view and list view. right now, map is hidden
-        // if user is on a mobile device, maptoggle button should exist
-        // if maporlist is true - map view and infobar is active, list view is off,
-        // if maporlist if false - map is off, list only
-        // one variable to read state - it will be truthy or falsy
-        //truthy will keep map on the screen,
-        // falsy will be list only
-        // if screen is greater than 800, there is no option
-        // less than 800 one or the other
-        // map only hidden if width is less than 800 and maporlist is falsy
-
         let hideMap
         if (this.state.width < 768 && !this.state.mapOrList ) {
             hideMap = {
@@ -178,7 +166,7 @@ class ResultsView extends Component {
         }
         return (
             <div className={`${resultStyle.resultsContainer}`} >
-                <div className={`${resultStyle.header}`} >
+                <div className={`${resultStyle.header}`} style={{boxSizing: 'border-box'}} >
                     Click on a marker to scroll to that location. Zoom out to see other locations.
                     <div>{mapToggle}</div>
                     {/* <DropdownMenu 
