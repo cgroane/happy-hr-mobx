@@ -26,7 +26,6 @@ injectGlobal`
 @import url('https://fonts.googleapis.com/css?family=Roboto:700');
 @import url('https://fonts.googleapis.com/css?family=BioRhyme+Expanded|Roboto:700');
 body {
-    background-color: ghostwhite;
     padding: 0;
     margin: 0;
     font-family: 'BioRhyme Expanded', serif;

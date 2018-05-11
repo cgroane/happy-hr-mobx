@@ -45,7 +45,8 @@ export default {
         z-index: 2;
         @media(max-width: 768px) {
             width: 100vw;
-        }
+        };
+        background: ghostwhite;
     `,
     dealCard: css`
         width: 90%;
