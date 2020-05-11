@@ -1,19 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
-import {Provider} from 'react-redux'
 import {injectGlobal} from 'emotion';
 import './index.css';
 import App from './App';
-import store from './store';
+import observableDealsStore from './mobx/store.js';
 
 ReactDOM.render(
     
         
         <BrowserRouter>
-        <Provider store={store}>
-            <App /> 
-            </Provider>
+            <App store={observableDealsStore} /> 
         </BrowserRouter>
         
 

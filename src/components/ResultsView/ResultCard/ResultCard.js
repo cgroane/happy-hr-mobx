@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {selectDeal, setDistance} from './../../../ducks/reducer';
 import {updateDeals} from './../ResultsViewService';
 import {
@@ -50,5 +49,4 @@ class ResultCard extends Component {
         )
     }
 }
-const mapStateToProps = state => state;
-export default connect(mapStateToProps, {selectDeal, setDistance})(ResultCard)
+export default (ResultCard)

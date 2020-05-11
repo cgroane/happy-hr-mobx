@@ -1,9 +1,7 @@
 // modal to add a deal
 // show, hide with state
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {firestoreConnect} from 'react-redux-firebase';
 import {Link, withRouter} from 'react-router-dom';
 import axios from 'axios';
 import {addDeal, getDeals} from '../../firebase/getFBDeals';
@@ -206,5 +204,4 @@ class AddNew extends Component {
     }
 
 }
-const mapStateToProps = state => state
-export default connect(mapStateToProps, {sortDeals, getLocations, setDistance}) (AddNew);
+export default (AddNew);

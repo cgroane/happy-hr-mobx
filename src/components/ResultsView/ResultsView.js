@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {firestoreConnect} from 'react-redux-firebase';
-import {compose} from 'redux'
 import PropTypes from 'prop-types'
 import {css} from 'emotion';
 import {Link, withRouter} from 'react-router-dom';
+import {observer} from 'mobx-react';
 import {
     // Link,
     DirectLink,
@@ -29,6 +27,7 @@ import ResultsList from './ResultsList/ResultsList';
 import InfoBar from '../InfoBar/InfoBar';
 const google = window.google;
 
+@observer
 class ResultsView extends Component {
     static contextTypes = {
         store: PropTypes.object.isRequired
@@ -63,12 +62,11 @@ class ResultsView extends Component {
           })
           scrollSpy.update();
             const {firestore} = this.context.store;
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                console.log(position)
-                this.props.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})
-            })
-        }
+        // if ("geolocation" in navigator) {
+        //     navigator.geolocation.getCurrentPosition((position) => {
+        //         this.props.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})
+        //     })
+        // }
         let uluru = {
             lat: 32.813085, 
             lng: -96.762331
@@ -86,8 +84,6 @@ class ResultsView extends Component {
         this.setState({
             day:now.toString()
         })
-        
-        console.log(this.props.day)
         
         firestore.get('deals').then((results) => {
             results.forEach((cur) => 
@@ -212,21 +208,5 @@ class ResultsView extends Component {
         )
     }
 }
-const mapStateToProps = (state, props) => {
-    console.log(state)
-    // console.log(props)
-    return {
-        deals: state.firestore.ordered.deals,
-        userLocation: state.main.userLocation
-    }
-}
-ResultsView.defaultProps = {
-    deals: [],
-    userLocation: {
-    }
-}
-export default compose (
-    firestoreConnect([{collection:'deals'}]), 
-    connect(mapStateToProps, {sortDeals, getLocations, setDistance, filterDeals, getDayOfWeek, getUserLocation, setDeals, reverseSort, setStatic})
-)
-(ResultsView)
+
+export default (ResultsView)

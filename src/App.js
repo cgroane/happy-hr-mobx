@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {connect} from 'react-redux';
 import {css} from 'emotion';
 import {getLocations, getUserLocation} from './ducks/reducer';
 import {Link, withRouter} from 'react-router-dom'
