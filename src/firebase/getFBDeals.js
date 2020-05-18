@@ -36,20 +36,17 @@ export const addDeal = (deal) => {
     
 }
 
-export const viewDeals = () => {
-    // fetch deals from firebase
-    // return them here
-    // set deals property in componentdidmount passing in an array represented by this function invoked
-    var self = this
+export const viewDeals = (string) => {
+    console.log(string)
     firestore
-        .collection('deals').get()
-        .then(results => {
-            let deals = []
-            console.log(results)
+    .collection('deals').get()
+    .then(results => {
+        let deals = []
             results.forEach((cur) => {
-                console.log(cur.data())
-                deals.push(cur.data());
+                const deal = cur.data();
+                console.log(deal)
+                deals.push(deal);
             })
-           return deals
+            return deals
         })
 }

@@ -128,7 +128,7 @@ export function initMap (mapDiv, userLocation) {
                     containerId: 'deal-list',
                     offset: -100
                 })
-                let selected = self.props.deals.find(x => x.id == marker.id)
+                let selected = self.props.store.deals.find(x => x.id == marker.id)
                 self.setState({
                     selected: selected
                 })

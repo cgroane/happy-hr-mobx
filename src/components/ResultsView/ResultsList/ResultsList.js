@@ -12,6 +12,7 @@ const ResultsList = (props) => {
     } else {
         hideList = null
     }
+    // console.log(props)
     return (
         <div className={`${resultStyle.dealList}`}  style={hideList} id="deal-list" >{
             props.deals.map((cur, ind, arr) => {

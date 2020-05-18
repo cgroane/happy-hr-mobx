@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import {css} from 'emotion';
 import {Link, withRouter} from 'react-router-dom';
-import {observer} from 'mobx-react';
+import {observer, inject} from 'mobx-react';
+import {observable, action, computed,flow, when} from 'mobx';
 import {
     // Link,
     DirectLink,
@@ -15,7 +17,7 @@ import {
 import moment from 'moment';
 import {sortDeals, getLocations, setDistance, filterDeals, getDayOfWeek, getUserLocation, setDeals, reverseSort, setStatic} from './../../ducks/reducer';
 import {viewDeals} from '../../firebase/getFBDeals';
-import firestore from '../../config/fire';
+import {firestore} from '../../config/fire';
 import {initMap, setMarkers, updateDeals} from './ResultsViewService';
 import DropdownMenu, {DropdownItemGroup, DropdownItem} from '@atlaskit/dropdown-menu';
 import './ResultsView.css';
@@ -25,13 +27,12 @@ import resultsFunctions from './../utility/functions';
 import ResultCard from './ResultCard/ResultCard';
 import ResultsList from './ResultsList/ResultsList';
 import InfoBar from '../InfoBar/InfoBar';
+import { StoreContext } from '../../index';
+import observableDealsStore from '../../mobx/deals';
 const google = window.google;
 
-@observer
-class ResultsView extends Component {
-    static contextTypes = {
-        store: PropTypes.object.isRequired
-    }
+
+@observer class ResultsView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,12 +42,12 @@ class ResultsView extends Component {
             height: 0,
             width: 0,
             selected: {
-
             }
         }
     }
     
     componentDidMount() {
+        this.props.store.fetchDeals()
         this.updateWindowDimensions()
         window.addEventListener('resize', this.updateWindowDimensions)
         if (this.state.width < 768) {
@@ -61,12 +62,11 @@ class ResultsView extends Component {
             // console.log('end', arguments)
           })
           scrollSpy.update();
-            const {firestore} = this.context.store;
-        // if ("geolocation" in navigator) {
-        //     navigator.geolocation.getCurrentPosition((position) => {
-        //         this.props.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})
-        //     })
-        // }
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                this.props.store.getUserLocation({lat:position.coords.latitude, lng:position.coords.longitude})
+            })
+        }
         let uluru = {
             lat: 32.813085, 
             lng: -96.762331
@@ -84,12 +84,10 @@ class ResultsView extends Component {
         this.setState({
             day:now.toString()
         })
-        
-        firestore.get('deals').then((results) => {
-            results.forEach((cur) => 
-                cur.data()
-            )   
-        })
+        when(
+            () => this.props.store.deals.length,
+            () => setMarkers.call(this, this.map, this.props.store.deals)
+        )
     }
     
     componentWillUnmount() {
@@ -99,13 +97,8 @@ class ResultsView extends Component {
       }
    
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.deals.length !== prevProps.deals.length) {
-            // get distance
-            
-            // set distance in reducer
-            // this.props.setDistance(deals)
-            setMarkers.call(this, this.map, this.props.deals);
-            
+        if(this.props.store.deals.length !== prevProps.store.deals.length) {
+
         }
         if (this.props.userLocation != undefined) {
             // this.props.setDistance(this.props.deals, this.props.userLocation)
@@ -165,48 +158,20 @@ class ResultsView extends Component {
                 <div className={`${resultStyle.header}`} style={{boxSizing: 'border-box'}} >
                     Click on a marker to scroll to that location. Zoom out to see other locations.
                     <div>{mapToggle}</div>
-                    {/* <DropdownMenu 
-                        trigger="Sort by distance"
-                        triggerType="button"
-                        shouldFlip={true}
-                        position="right middle"
-                        shouldFitContainer={true}
-                        onOpenchange={e => console.log('dropdown opened', e)}
-                    > */}
-                        {/* <DropdownItemGroup>
-                            <DropdownItem value="shortestToLongest" onClick={() => this.props.sortDeals(this.props.deals)} >Shortest to Longest</DropdownItem>
-                            <DropdownItem value="longestToShortest" onClick={() => this.props.reverseSort(this.props.deals)} >Longest to Shortest</DropdownItem>
-                        </DropdownItemGroup>
-                    </DropdownMenu>
-
-                    <DropdownMenu 
-                        trigger="Active?"
-                        triggerType="button"
-                        shouldFlip={false}
-                        position="right middle"
-                        onOpenchange={e => console.log('dropdown opened', e)}
-                    >
-                        <DropdownItemGroup>
-                            <DropdownItem onClick={() => this.props.filterDeals(this.props.staticDeals)} >Active</DropdownItem>
-                            <DropdownItem onClick={() => this.props.getDeals(this.props.staticDeals)} >Don't care</DropdownItem>
-                        </DropdownItemGroup>
-                    </DropdownMenu> */}
                 </div>
-                {
-
-                }
-                <ResultsList deals={this.props.deals}  mapOrList={this.state.mapOrList}  dimensions={{height: this.state.height, width: this.state.width}} />
-
+                <ResultsList deals={this.props.store.deals}  mapOrList={this.state.mapOrList}  dimensions={{height: this.state.height, width: this.state.width}} />
                 <div className={`${resultStyle.mapContainer}`} style={hideMap} >
+                <div className={`${resultStyle.mapContainer}`} >
                     <div id="gmap" ref={ref => (this.gmap = ref)} />
                 </div>
-                {infoBar}
+                {'infoBar'}
                 <div className={`${appStyle.footer}`} >
                     <Link to="/add_new" ><span>Add New Special</span></Link>
                 </div>
+            </div>
             </div>
         )
     }
 }
 
-export default (ResultsView)
+export default ResultsView

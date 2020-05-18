@@ -4,16 +4,24 @@ import {BrowserRouter} from 'react-router-dom';
 import {injectGlobal} from 'emotion';
 import './index.css';
 import App from './App';
-import observableDealsStore from './mobx/store.js';
+import observableDealsStore from './mobx/deals.js';
+
+import { useLocalStore } from 'mobx-react';
+
+export const StoreContext = React.createContext()
+
+const StoreProvider = ({ children }) => {
+    return (
+    <StoreContext.Provider value={observableDealsStore} >{children}</StoreContext.Provider>
+    )
+}
 
 ReactDOM.render(
-    
-        
-        <BrowserRouter>
+    <BrowserRouter>
+        <StoreProvider>
             <App store={observableDealsStore} /> 
-        </BrowserRouter>
-        
-
+        </StoreProvider>
+    </BrowserRouter>
     ,
 
 document.getElementById('root'));
