@@ -1,93 +1,96 @@
 // import * as Scroll from 'react-scroll';
 import {Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll';
 const google = window.google;
-
-export function initMap (mapDiv, userLocation) {
-        this.map = new google.maps.Map(mapDiv, {
-            zoom: 10,
-            center: {lat: userLocation.lat, lng: userLocation.lng},
-            styles: [
+export const mapOptions = {
+    zoom: 10,
+    styles: [
+      {
+          "featureType": "administrative",
+          "elementType": "labels.text.fill",
+          "stylers": [
               {
-                  "featureType": "administrative",
-                  "elementType": "labels.text.fill",
-                  "stylers": [
-                      {
-                          "color": "#444444"
-                      }
-                  ]
-              },
-              {
-                  "featureType": "landscape",
-                  "elementType": "all",
-                  "stylers": [
-                      {
-                          "color": "#f2f2f2"
-                      }
-                  ]
-              },
-              {
-                  "featureType": "poi",
-                  "elementType": "all",
-                  "stylers": [
-                      {
-                          "visibility": "off"
-                      }
-                  ]
-              },
-              {
-                  "featureType": "road",
-                  "elementType": "all",
-                  "stylers": [
-                      {
-                          "saturation": -100
-                      },
-                      {
-                          "lightness": 45
-                      }
-                  ]
-              },
-              {
-                  "featureType": "road.highway",
-                  "elementType": "all",
-                  "stylers": [
-                      {
-                          "visibility": "simplified"
-                      }
-                  ]
-              },
-              {
-                  "featureType": "road.arterial",
-                  "elementType": "labels.icon",
-                  "stylers": [
-                      {
-                          "visibility": "off"
-                      }
-                  ]
-              },
-              {
-                  "featureType": "transit",
-                  "elementType": "all",
-                  "stylers": [
-                      {
-                          "visibility": "off"
-                      }
-                  ]
-              },
-              {
-                  "featureType": "water",
-                  "elementType": "all",
-                  "stylers": [
-                      {
-                          "color": "#365DD6"
-                      },
-                      {
-                          "visibility": "on"
-                      }
-                  ]
+                  "color": "#444444"
               }
           ]
-          
-          });
+      },
+      {
+          "featureType": "landscape",
+          "elementType": "all",
+          "stylers": [
+              {
+                  "color": "#f2f2f2"
+              }
+          ]
+      },
+      {
+          "featureType": "poi",
+          "elementType": "all",
+          "stylers": [
+              {
+                  "visibility": "off"
+              }
+          ]
+      },
+      {
+          "featureType": "road",
+          "elementType": "all",
+          "stylers": [
+              {
+                  "saturation": -100
+              },
+              {
+                  "lightness": 45
+              }
+          ]
+      },
+      {
+          "featureType": "road.highway",
+          "elementType": "all",
+          "stylers": [
+              {
+                  "visibility": "simplified"
+              }
+          ]
+      },
+      {
+          "featureType": "road.arterial",
+          "elementType": "labels.icon",
+          "stylers": [
+              {
+                  "visibility": "off"
+              }
+          ]
+      },
+      {
+          "featureType": "transit",
+          "elementType": "all",
+          "stylers": [
+              {
+                  "visibility": "off"
+              }
+          ]
+      },
+      {
+          "featureType": "water",
+          "elementType": "all",
+          "stylers": [
+              {
+                  "color": "#365DD6"
+              },
+              {
+                  "visibility": "on"
+              }
+          ]
+      }
+  ]
+  }
+export function initMapWithHooks(mapDiv, userLocation) {
+    mapDiv.style.right = "0vw";
+    mapDiv.style.top = "0vh";
+    new google.maps.Map(mapDiv, {...mapOptions, center: {lat: userLocation.lat, lng: userLocation.lng}})
+}
+export function initMap (mapDiv, userLocation) {
+        this.map = new google.maps.Map(mapDiv, {...mapOptions, center: {lat: userLocation.lat, lng: userLocation.lng}});
             mapDiv.style.right = "0vw";
             mapDiv.style.top = "0vh";
             // mapDiv.style.height = '80vh';
@@ -98,7 +101,6 @@ export function initMap (mapDiv, userLocation) {
         let scrollevents = scroller
        return array.forEach((cur, ind) => {
             var self = this;
-            // console.log(cur)
             var marker = new google.maps.Marker({
                 map: mapDiv,
                 position: {lat:cur.lat, lng:cur.lng},
@@ -128,10 +130,9 @@ export function initMap (mapDiv, userLocation) {
                     containerId: 'deal-list',
                     offset: -100
                 })
+                // function to set selected deal in store
                 let selected = self.props.store.deals.find(x => x.id == marker.id)
-                self.setState({
-                    selected: selected
-                })
+               self.props.store.setSelected(selected)
             })
         })
     }
@@ -148,7 +149,6 @@ export function initMap (mapDiv, userLocation) {
                             travelMode: 'DRIVING'
                         }, (response, status) => {
                             if (status == 'OK') {
-                                // console.log(response)
                                 cur.distance = response.rows[0].elements[0].distance.text;
                             }
                         }

@@ -1,15 +1,22 @@
 import {observable, action, computed, flow} from 'mobx';
 import {firestore} from '../config/fire.js'
 import {viewDeals} from '../firebase/getFBDeals';
-class DealsStore {
+export class DealsStore {
   @observable deals = []
+  @observable selectedDeal = {}
   @observable userLocation = null
-  @observable fetchStatus = 'asdf' /** pending, done, error */
+  @observable fetchStatus = 'done' /** pending, done, error */
+  @computed get dealCount () {
+    return this.deals.length
+  }
   
   constructor(rootStore) {
     this.rootStore = rootStore
   }
-
+  @action setSelected = deal => {
+    console.log(this.selectedDeal, deal)
+    this.selectedDeal = {...deal}
+  }
   fetchDeals = flow(function * () {
     this.fetchStatus = 'pending'
 
@@ -20,7 +27,6 @@ class DealsStore {
       ))
 
       this.deals = yield deals
-      console.log(this.deals)
       this.fetchStatus = 'done'
     } catch {
       this.fetchStatus = 'error'

@@ -1,5 +1,3 @@
-// modal to add a deal
-// show, hide with state
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Link, withRouter} from 'react-router-dom';
@@ -10,13 +8,13 @@ import appStyle from './../styles/appStyle';
 import AddNewStyle from './AddNewStyle';
 import functions from './../utility/functions';
 import './AddNew.css';
+import { firestore } from '../../config/fire';
+import { observer } from 'mobx-react';
 
 const google = window.google;
 
+@observer
 class AddNew extends Component {
-    static contextTypes = {
-        store: PropTypes.object.isRequired
-    }
     constructor(props) {
         super(props)
         this.state = {
@@ -36,7 +34,7 @@ class AddNew extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
-        
+        this.props.store.fetchDeals()
     }
     handleChange(event) {
         const value = event.target.value;
@@ -109,9 +107,7 @@ class AddNew extends Component {
     }
     handleSubmit(event) {
         // firestore
-        event.preventDefault();
-        const {firestore} = this.context.store;
-        
+        event.preventDefault()
         let deal = {
             restaurant: {
                 name: this.state.name,
@@ -138,18 +134,13 @@ class AddNew extends Component {
             }   
         } 
          if(checkFields){
-            //     return addDeal(deal).then(() => {
-            //         this.props.history.push('/')
-            //     return this.props.getLocations()
-            // })
             let address = `${deal.restaurant.address}, ${deal.restaurant.city}, ${deal.restaurant.state}, ${deal.restaurant.zip}`
         var geocoder = new google.maps.Geocoder;
+        const that = this;
         geocoder.geocode({'address': address}, function(results, status) {
             if (status=== 'OK' ) {
-                let that = this;
                 let obj = results[0].geometry.location
-                let newDealRef = firestore
-                    .add({collection: 'deals'}, {
+                let newDealRef = firestore.collection('deals').add({
                         restaurant: deal.restaurant,
                         title: deal.title,
                         days: deal.days,
@@ -160,6 +151,7 @@ class AddNew extends Component {
                         photos: deal.photos
                     }).then(() => {
                         alert('Success! Go back to home page')
+                        that.props.store.fetchDeals()
                     })
                 console.log('lat lng worked')
             } else {
@@ -196,6 +188,7 @@ class AddNew extends Component {
                     </button>
                 </div>
             </form>
+        <div>{this.props.store.dealCount}</div>
             <div className={`${appStyle.footer}`} >
                     <Link to="/" ><span>Back to home</span></Link>
                 </div>
